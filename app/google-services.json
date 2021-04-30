@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "354022464155",
+    "project_id": "eggxact-4d4f2",
+    "storage_bucket": "eggxact-4d4f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354022464155:android:11d80481ec568b450b443e",
+        "android_client_info": {
+          "package_name": "com.se491.eggxact"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354022464155-jdsntmvho7ubv7oiogt5ft5s0bskbof6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByWO2pJjcjWRr9p9lZ7OsrkaMwNeDnrTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354022464155-jdsntmvho7ubv7oiogt5ft5s0bskbof6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
