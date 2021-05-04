@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void searchId(View v){
+        new Thread(new RecipeIdSearchRunnable("156992",this)).start(); // Using static data now will be modified later "just as proof of concept"
     }
 
     private void firebaseTestCall(){
