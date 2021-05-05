@@ -5,6 +5,9 @@ import android.util.Log;
 
 import com.se491.eggxact.MainActivity;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -60,13 +63,36 @@ public class RecipeIdSearchRunnable implements Runnable {
             while ((data = bufferedReader.readLine()) != null) {
                 strBuilder.append(data).append("\n");
             }
+
             Log.d(TAG, "run: "+strBuilder.toString());
+
+            processData(strBuilder.toString());
 
         }
         catch (Exception e){
             Log.d(TAG, "run: "+e.toString());
         }
 
+    }
+
+    private void processData(String data) {
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            Log.d(TAG, "processData: Title "+jsonObject.getString("title"));
+            Log.d(TAG, "processData: Mins "+jsonObject.getString("readyInMinutes"));
+            Log.d(TAG, "processData: Img "+jsonObject.getString("image"));
+            Log.d(TAG, "processData: Instructions "+jsonObject.getString("instructions"));
+            JSONArray jsonArray = jsonObject.getJSONArray("extendedIngredients");
+            Log.d(TAG, "processData: "+jsonArray.length());
+            for(int i=0;i<jsonArray.length();i++){
+                JSONObject jObj = jsonArray.getJSONObject(i);
+                Log.d(TAG, "processData: "+jObj.toString());
+            }
+
+        }
+        catch (Exception e){
+            Log.d(TAG, "run: "+e.toString());
+        }
     }
 
 
