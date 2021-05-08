@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +22,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
-import com.se491.eggxact.Runnables.RecipeSearchRunnable;
+import com.se491.eggxact.structure.Recipe;
+import com.se491.eggxact.structure.RecipeHolderLookup;
+import com.se491.eggxact.structure.RecipeList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,16 +36,52 @@ public class MainActivity extends AppCompatActivity {
     TextView dataTxt;
     Button testBtn;
 
+    EditText enterRecipeName;
+    Button searchIdButton;
+    Button AddRecipeButton;
+    DatabaseReference recipeHolderDatabase;
+    ListView listViewofRecipes;
+    RecipeHolderLookup lookup;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         nameTxt = findViewById(R.id.nameTxt);
         testBtn = findViewById(R.id.testBtn);
+        AddRecipeButton = findViewById(R.id.addRecipeId);
         dataTxt = findViewById(R.id.dataTxt);
+        listViewofRecipes = (ListView) findViewById(R.id.ListViewRecipes);
+        recipeHolderDatabase = FirebaseDatabase.getInstance().getReference("recipeHolder");
+        lookup = new RecipeHolderLookup(recipeHolderDatabase);
+
+        enterRecipeName = findViewById(R.id.nameTxt);
+        searchIdButton = findViewById(R.id.searchId);
+
+
+
+
+        AddRecipeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addRecipeById();
+            }
+        });
+
+
+        searchIdButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = enterRecipeName.getText().toString().trim();
+                lookup.selectFromRecipeHolder(name, MainActivity.this, listViewofRecipes);
+            }
+        });
+
+
         /* another way to implement buttons is .setOnClickListener or via the layout designer.
-         * Keep in mind the method should be like this methodName(View v){ } when using the designer.
-         * */
+        * Keep in mind the method should be like this methodName(View v){ } when using the designer.
+        * */
         testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase db = FirebaseDatabase.getInstance(); // getting a firebase instance.
         DatabaseReference dbRef = db.getReference("Tests"); // reference to the db in this case called test
         /*
-         * We aren't yet adding children so the db only holds 1 value for now.
-         * */
+        * We aren't yet adding children so the db only holds 1 value for now.
+        * */
         dbRef.setValue(nameTxt.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override // onCompleteListeners are optional but can be helpful
             public void onComplete(@NonNull Task<Void> task) {
@@ -90,3 +133,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+

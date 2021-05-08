@@ -59,4 +59,21 @@
         app:layout_constraintEnd_toEndOf="@+id/searchId"
         app:layout_constraintStart_toStartOf="@+id/searchId"
         app:layout_constraintTop_toBottomOf="@+id/searchId" />
+
+    <Button
+        android:id="@+id/addRecipeId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="addRecipe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchId" />
+
+    <ListView
+        android:id="@+id/ListViewRecipes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="parent"
+        tools:layout_editor_absoluteY="-247dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
