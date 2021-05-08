@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Eggxact</string>
+
+    <array name="recipes">
+        <item>chicken</item>
+        <item>shrimp</item>
+        <item>pasta</item>
+
+    </array>
 </resources>

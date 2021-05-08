@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:ems="10"
+        android:hint="TypeName"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,4 +49,21 @@
         app:layout_constraintEnd_toEndOf="@+id/testBtn"
         app:layout_constraintStart_toStartOf="@+id/testBtn"
         app:layout_constraintTop_toBottomOf="@+id/dataTxt" />
+
+    <Button
+        android:id="@+id/addRecipeId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="addRecipe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchId" />
+
+    <ListView
+        android:id="@+id/ListViewRecipes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="parent"
+        tools:layout_editor_absoluteY="-247dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
