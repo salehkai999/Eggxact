@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
+import com.se491.eggxact.Runnables.RecipeSearchRunnable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         testBtn = findViewById(R.id.testBtn);
         dataTxt = findViewById(R.id.dataTxt);
         /* another way to implement buttons is .setOnClickListener or via the layout designer.
-        * Keep in mind the method should be like this methodName(View v){ } when using the designer.
-        * */
+         * Keep in mind the method should be like this methodName(View v){ } when using the designer.
+         * */
         testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,15 +49,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchId(View v){
-        new Thread(new RecipeIdSearchRunnable("156992",this)).start(); // Using static data now will be modified later "just as proof of concept"
+        //new Thread(new RecipeIdSearchRunnable("156992",this)).start(); // Using static data now will be modified later "just as proof of concept"
+        new Thread(new RecipeSearchRunnable(this,"burger")).start();
     }
 
     private void firebaseTestCall(){
         FirebaseDatabase db = FirebaseDatabase.getInstance(); // getting a firebase instance.
         DatabaseReference dbRef = db.getReference("Tests"); // reference to the db in this case called test
         /*
-        * We aren't yet adding children so the db only holds 1 value for now.
-        * */
+         * We aren't yet adding children so the db only holds 1 value for now.
+         * */
         dbRef.setValue(nameTxt.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override // onCompleteListeners are optional but can be helpful
             public void onComplete(@NonNull Task<Void> task) {
@@ -82,4 +84,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-
