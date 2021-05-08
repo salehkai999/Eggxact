@@ -3,6 +3,7 @@ package com.se491.eggxact;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,8 +50,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchId(View v){
-        //new Thread(new RecipeIdSearchRunnable("156992",this)).start(); // Using static data now will be modified later "just as proof of concept"
-        new Thread(new RecipeSearchRunnable(this,"burger")).start();
+        new Thread(new RecipeIdSearchRunnable("156992",this)).start(); // Using static data now will be modified later "just as proof of concept"
+
+    }
+
+    public void nameSearch(View v){
+        Intent searchIntent = new Intent(this,AdvSearchActivity.class);
+        startActivity(searchIntent);
     }
 
     private void firebaseTestCall(){

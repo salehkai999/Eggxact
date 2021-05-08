@@ -1,8 +1,10 @@
 package com.se491.eggxact.Runnables;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.MainActivity;
 
 import org.json.JSONArray;
@@ -20,11 +22,11 @@ public class RecipeSearchRunnable implements Runnable {
     private static final String API_KEY = "8694c31524msh9489d792de20f42p137d32jsn7a3cd585ce55";
     private static final String HOST = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
     private static final String URL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search";
-    private MainActivity mainActivity;
+    private AdvSearchActivity advSearchActivity;
     private String query;
 
-    public RecipeSearchRunnable(MainActivity mainActivity, String query) {
-        this.mainActivity = mainActivity;
+    public RecipeSearchRunnable(AdvSearchActivity advSearchActivity, String query) {
+        this.advSearchActivity = advSearchActivity;
         this.query = query;
     }
 

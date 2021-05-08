@@ -48,4 +48,15 @@
         app:layout_constraintEnd_toEndOf="@+id/testBtn"
         app:layout_constraintStart_toStartOf="@+id/testBtn"
         app:layout_constraintTop_toBottomOf="@+id/dataTxt" />
+
+    <Button
+        android:id="@+id/searchName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:onClick="nameSearch"
+        android:text="Search By Name"
+        app:layout_constraintEnd_toEndOf="@+id/searchId"
+        app:layout_constraintStart_toStartOf="@+id/searchId"
+        app:layout_constraintTop_toBottomOf="@+id/searchId" />
 </androidx.constraintlayout.widget.ConstraintLayout>
