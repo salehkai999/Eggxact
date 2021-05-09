@@ -3,6 +3,7 @@ package com.se491.eggxact.Runnables;
 import android.net.Uri;
 import android.util.Log;
 
+import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.MainActivity;
 
 import org.json.JSONArray;
@@ -23,10 +24,20 @@ public class RecipeIdSearchRunnable implements Runnable {
     private static final String URL_PART2 = "/information";
     private String queryID;
     private MainActivity mainActivity;
+    private AdvSearchActivity advSearchActivity;
 
     public RecipeIdSearchRunnable(String queryID, MainActivity mainActivity) {
         this.queryID = queryID;
         this.mainActivity = mainActivity;
+    }
+
+    public RecipeIdSearchRunnable(String queryID, AdvSearchActivity advSearchActivity) {
+        this.queryID = queryID;
+        this.advSearchActivity = advSearchActivity;
+    }
+
+    public RecipeIdSearchRunnable(String queryID) {
+        this.queryID = queryID;
     }
 
     @Override

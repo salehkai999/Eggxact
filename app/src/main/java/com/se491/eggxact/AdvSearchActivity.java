@@ -8,17 +8,20 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.Runnables.RecipeSearchRunnable;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeAdapter;
 
 import java.util.ArrayList;
 
-public class AdvSearchActivity extends AppCompatActivity {
+public class AdvSearchActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "AdvSearchActivity";
     private static final ArrayList<Recipe> recipeList = new ArrayList<>();
@@ -31,7 +34,7 @@ public class AdvSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_adv_search);
         searchByName = findViewById(R.id.searchNameTxt);
         recyclerView = findViewById(R.id.recycler);
-        recipeAdapter = new RecipeAdapter(recipeList);
+        recipeAdapter = new RecipeAdapter(recipeList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recipeAdapter);
 
@@ -64,5 +67,13 @@ public class AdvSearchActivity extends AppCompatActivity {
         recipeList.addAll(recipeArrayList);
         recipeAdapter.notifyDataSetChanged();
         Log.d(TAG, "showData: "+recipeList.size());
+    }
+
+    @Override
+    public void onClick(View v) {
+        int pos = recyclerView.getChildAdapterPosition(v);
+        Recipe recipe = recipeList.get(pos);
+        Toast.makeText(this, recipe.recipeName+" : "+recipe.recipeId, Toast.LENGTH_SHORT).show();
+        new Thread(new RecipeIdSearchRunnable(recipe.recipeId)).start();
     }
 }
