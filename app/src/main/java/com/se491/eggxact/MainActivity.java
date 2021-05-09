@@ -42,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
     RecipeHolderLookup lookup;
 
 
+    EditText enterRecipeName;
+    Button searchIdButton;
+    Button AddRecipeButton;
+    DatabaseReference recipeHolderDatabase;
+    ListView listViewofRecipes;
+    RecipeHolderLookup lookup;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,8 +93,10 @@ public class MainActivity extends AppCompatActivity {
                 firebaseTestCall();
             }
         });
+    }
 
-
+    private void addRecipeById() {
+        lookup.addtoRecipeHolderTable(enterRecipeName);
     }
 
     public void searchId(View v){
