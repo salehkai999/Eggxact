@@ -4,6 +4,11 @@ import com.google.firebase.database.DatabaseReference;
 
 public class Recipe {
 
+
+    /*
+        RecipeHolder to link with Firebase.
+     */
+
     public String recipeId;
     public String recipeName;
 

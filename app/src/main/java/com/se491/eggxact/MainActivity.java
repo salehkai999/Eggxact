@@ -3,6 +3,7 @@ package com.se491.eggxact;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,8 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     EditText nameTxt;
-    TextView dataTxt;
     Button testBtn;
+    EditText enterRecipeName;
+    Button searchIdButton;
+    Button AddRecipeButton;
+    DatabaseReference recipeHolderDatabase;
+    ListView listViewofRecipes;
+    RecipeHolderLookup lookup;
+
 
     EditText enterRecipeName;
     Button searchIdButton;
@@ -50,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         nameTxt = findViewById(R.id.nameTxt);
         testBtn = findViewById(R.id.testBtn);
         AddRecipeButton = findViewById(R.id.addRecipeId);
-        dataTxt = findViewById(R.id.dataTxt);
         listViewofRecipes = (ListView) findViewById(R.id.ListViewRecipes);
         recipeHolderDatabase = FirebaseDatabase.getInstance().getReference("recipeHolder");
         lookup = new RecipeHolderLookup(recipeHolderDatabase);
@@ -95,6 +101,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void searchId(View v){
         new Thread(new RecipeIdSearchRunnable("156992",this)).start(); // Using static data now will be modified later "just as proof of concept"
+
+    }
+
+    public void nameSearch(View v){
+        Intent searchIntent = new Intent(this,AdvSearchActivity.class);
+        startActivity(searchIntent);
     }
 
     private void firebaseTestCall(){
@@ -115,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) { // basically firebase has a realtime db which means whenever the data changes this gets triggered.!
                 String value = dataSnapshot.getValue(String.class);
-                dataTxt.setText(value);
                 Log.d(TAG, "Data: " + value);
             }
 
@@ -125,6 +136,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void addRecipeById() {
+        lookup.addtoRecipeHolderTable(enterRecipeName);
     }
 
 }
