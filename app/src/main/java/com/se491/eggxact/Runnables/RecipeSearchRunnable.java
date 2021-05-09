@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.MainActivity;
+import com.se491.eggxact.structure.Recipe;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class RecipeSearchRunnable implements Runnable {
 
@@ -22,6 +24,7 @@ public class RecipeSearchRunnable implements Runnable {
     private static final String API_KEY = "8694c31524msh9489d792de20f42p137d32jsn7a3cd585ce55";
     private static final String HOST = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
     private static final String URL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search";
+    private static final ArrayList<Recipe> RECIPE_ARRAY_LIST = new ArrayList<>();
     private AdvSearchActivity advSearchActivity;
     private String query;
 
@@ -36,7 +39,7 @@ public class RecipeSearchRunnable implements Runnable {
 
         Uri.Builder builder = Uri.parse(URL).buildUpon();
         builder.appendQueryParameter("query",query);
-        builder.appendQueryParameter("number","100");
+        builder.appendQueryParameter("number","10");
         builder.appendQueryParameter("offset","0");
         String urlStr = builder.toString();
         Log.d(TAG, "run: "+urlStr);
@@ -79,16 +82,25 @@ public class RecipeSearchRunnable implements Runnable {
 
     private void processData(String data) {
         try {
+            RECIPE_ARRAY_LIST.clear();
             JSONObject jsonObject = new JSONObject(data);
             JSONArray jsonArray = jsonObject.getJSONArray("results");
             for(int i=0;i<jsonArray.length();i++){
                 jsonObject = jsonArray.getJSONObject(i);
+                Recipe recipe = new Recipe(jsonObject.getString("id"),jsonObject.getString("title"));
                 Log.d(TAG, "processData: ID "+jsonObject.getString("id"));
                 Log.d(TAG, "processData: Title "+jsonObject.getString("title"));
                 Log.d(TAG, "processData: readyInMinutes "+jsonObject.getInt("readyInMinutes"));
                 Log.d(TAG, "processData: servings "+jsonObject.getInt("servings"));
                 Log.d(TAG, "processData: sourceUrl "+jsonObject.getString("sourceUrl"));
+                RECIPE_ARRAY_LIST.add(recipe);
             }
+            advSearchActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    advSearchActivity.showData(RECIPE_ARRAY_LIST);
+                }
+            });
         }
         catch (Exception e){
             Log.d(TAG, "run: "+e.toString());
