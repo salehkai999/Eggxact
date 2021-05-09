@@ -39,7 +39,7 @@ public class RecipeSearchRunnable implements Runnable {
 
         Uri.Builder builder = Uri.parse(URL).buildUpon();
         builder.appendQueryParameter("query",query);
-        builder.appendQueryParameter("number","10");
+        builder.appendQueryParameter("number","20");
         builder.appendQueryParameter("offset","0");
         String urlStr = builder.toString();
         Log.d(TAG, "run: "+urlStr);

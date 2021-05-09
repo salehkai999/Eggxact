@@ -18,6 +18,7 @@ import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.Runnables.RecipeSearchRunnable;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeAdapter;
+import com.se491.eggxact.structure.RecipeInfo;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,7 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
                         doSearch(searchByName.getText().toString().trim());
                         searchByName.setText("");
                     }
+
                 }
                 return false;
             }
@@ -74,6 +76,17 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         int pos = recyclerView.getChildAdapterPosition(v);
         Recipe recipe = recipeList.get(pos);
         Toast.makeText(this, recipe.recipeName+" : "+recipe.recipeId, Toast.LENGTH_SHORT).show();
-        new Thread(new RecipeIdSearchRunnable(recipe.recipeId)).start();
+        new Thread(new RecipeIdSearchRunnable(recipe.recipeId,this)).start();
+        // I will consider adding a progress bar to let the user know that the app is still working LOL.
+    }
+
+    public void passRecipeObject(RecipeInfo recipeInfo) {
+        Log.d(TAG, "passRecipeObject: "+recipeInfo.toString());
+        /* Moving to RecipeActivity here, pass the recipeInfo object .putExtra and in your activity it should check if there's an extra and use getSerializableExtra (You can comment out the logs)
+            Logs are useful for debugging and getting the functionality right.
+         */
+
+
+
     }
 }

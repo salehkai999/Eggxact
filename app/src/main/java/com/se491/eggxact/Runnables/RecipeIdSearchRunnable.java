@@ -24,8 +24,8 @@ public class RecipeIdSearchRunnable implements Runnable {
     private static final String URL_PART1 = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/"; // id goes after p1 then p2
     private static final String URL_PART2 = "/information";
     private String queryID;
-    private MainActivity mainActivity;
-    private AdvSearchActivity advSearchActivity;
+    private MainActivity mainActivity =null;
+    private AdvSearchActivity advSearchActivity =null;
 
     public RecipeIdSearchRunnable(String queryID, MainActivity mainActivity) {
         this.queryID = queryID;
@@ -111,6 +111,14 @@ public class RecipeIdSearchRunnable implements Runnable {
             }
 
             Log.d(TAG, "processData: "+recipeInfo.toString());
+            if(advSearchActivity != null){
+                advSearchActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        advSearchActivity.passRecipeObject(recipeInfo);
+                    }
+                });
+            }
         }
         catch (Exception e){
             Log.d(TAG, "run: "+e.toString());

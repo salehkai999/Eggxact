@@ -1,9 +1,13 @@
 package com.se491.eggxact.structure;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RecipeInfo {
+public class RecipeInfo implements Serializable {
 
+    /*
+        RecipeInfo to hold a single recipe's data.
+     */
     private String name;
     private int prepTime;
     private int cookingTime;
