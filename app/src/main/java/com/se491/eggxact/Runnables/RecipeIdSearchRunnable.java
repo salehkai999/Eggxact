@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.MainActivity;
+import com.se491.eggxact.structure.RecipeInfo;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -65,7 +66,7 @@ public class RecipeIdSearchRunnable implements Runnable {
                 while (null != (line = reader.readLine())) {
                     result.append(line).append("\n");
                 }
-                Log.d(TAG, "run: "+result.toString());
+              //  Log.d(TAG, "run: "+result.toString());
                 return;
             }
             InputStream inputStream = connection.getInputStream();
@@ -88,18 +89,28 @@ public class RecipeIdSearchRunnable implements Runnable {
 
     private void processData(String data) {
         try {
+            RecipeInfo recipeInfo = new RecipeInfo();
             JSONObject jsonObject = new JSONObject(data);
-            Log.d(TAG, "processData: Title "+jsonObject.getString("title"));
-            Log.d(TAG, "processData: Mins "+jsonObject.getString("readyInMinutes"));
-            Log.d(TAG, "processData: Img "+jsonObject.getString("image"));
-            Log.d(TAG, "processData: Instructions "+jsonObject.getString("instructions"));
+           // Log.d(TAG, "processData: Title "+jsonObject.getString("title"));
+            recipeInfo.setName(jsonObject.getString("title"));
+           // Log.d(TAG, "processData: Mins "+jsonObject.getString("readyInMinutes"));
+            recipeInfo.setReadyMinutes(jsonObject.getInt("readyInMinutes"));
+            recipeInfo.setCookingTime(jsonObject.getInt("cookingMinutes"));
+            recipeInfo.setPrepTime(jsonObject.getInt("preparationMinutes"));
+            recipeInfo.setHealthScore(jsonObject.getDouble("healthScore"));
+          // Log.d(TAG, "processData: Img "+jsonObject.getString("image"));
+            recipeInfo.setImgURL(jsonObject.getString("image"));
+           // Log.d(TAG, "processData: Instructions "+jsonObject.getString("instructions"));
+            recipeInfo.setInstructions(jsonObject.getString("instructions"));
             JSONArray jsonArray = jsonObject.getJSONArray("extendedIngredients");
-            Log.d(TAG, "processData: "+jsonArray.length());
+            //Log.d(TAG, "processData: "+jsonArray.length());
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jObj = jsonArray.getJSONObject(i);
-                Log.d(TAG, "processData: "+jObj.toString());
+                recipeInfo.addIngredient(jObj.getString("originalString"));
+               // Log.d(TAG, "processData: "+jObj.toString());
             }
 
+            Log.d(TAG, "processData: "+recipeInfo.toString());
         }
         catch (Exception e){
             Log.d(TAG, "run: "+e.toString());
