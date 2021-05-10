@@ -86,7 +86,8 @@ public class RecipeIdSearchRunnable implements Runnable {
             Log.d(TAG, "processData: "+jsonArray.length());
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jObj = jsonArray.getJSONObject(i);
-                Log.d(TAG, "processData: "+jObj.toString());
+                Log.d(TAG, "processData: "+jObj.toString()
+                );
             }
 
         }
