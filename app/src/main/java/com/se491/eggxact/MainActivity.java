@@ -42,12 +42,7 @@ public class MainActivity extends AppCompatActivity {
     RecipeHolderLookup lookup;
 
 
-    EditText enterRecipeName;
-    Button searchIdButton;
-    Button AddRecipeButton;
-    DatabaseReference recipeHolderDatabase;
-    ListView listViewofRecipes;
-    RecipeHolderLookup lookup;
+
 
 
     @Override
@@ -136,10 +131,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void addRecipeById() {
-        lookup.addtoRecipeHolderTable(enterRecipeName);
     }
 
 }
