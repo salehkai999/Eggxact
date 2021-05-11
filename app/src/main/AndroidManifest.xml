@@ -11,8 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Eggxact">
-        <activity android:name=".AdvSearchActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".RecipeActivity"></activity>
+<!--        <activity android:name=".AdvSearchActivity"></activity>-->
+        <activity android:name=".AdvSearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

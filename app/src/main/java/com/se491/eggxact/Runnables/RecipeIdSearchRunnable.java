@@ -22,6 +22,7 @@ public class RecipeIdSearchRunnable implements Runnable {
 
     private static final String TAG = "RecipeIdSearchRunnable";
     private static final String API_KEY = "8694c31524msh9489d792de20f42p137d32jsn7a3cd585ce55"; // use your own
+//    private static final String API_KEY = "217a7dc8ecmsh533b2d067f06a22p19bd78jsn3ace3adb1dc0"; // Korey Key
     private static final String HOST = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
     private static final String URL_PART1 = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/"; // id goes after p1 then p2
     private static final String URL_PART2 = "/information";
@@ -99,7 +100,9 @@ public class RecipeIdSearchRunnable implements Runnable {
             recipeInfo.setName(jsonObject.getString("title"));
            // Log.d(TAG, "processData: Mins "+jsonObject.getString("readyInMinutes"));
             recipeInfo.setReadyMinutes(jsonObject.getInt("readyInMinutes"));
+            // Log.d(TAG, "processData: Cooking MiNUTES "+jsonObject.getString("cookingMinutes"));
             recipeInfo.setCookingTime(jsonObject.getInt("cookingMinutes"));
+
             recipeInfo.setPrepTime(jsonObject.getInt("preparationMinutes"));
             recipeInfo.setHealthScore(jsonObject.getDouble("healthScore"));
           // Log.d(TAG, "processData: Img "+jsonObject.getString("image"));
@@ -113,6 +116,7 @@ public class RecipeIdSearchRunnable implements Runnable {
 
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jObj = jsonArray.getJSONObject(i);
+                Log.d(TAG, "processData: "+jObj.toString());
                 recipeInfo.addIngredient(jObj.getString("originalString"));
                // Log.d(TAG, "processData: "+jObj.toString());
             }
