@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     Button testBtn;
     EditText enterRecipeName;
     Button searchIdButton;
-    Button AddRecipeButton;
     DatabaseReference recipeHolderDatabase;
     ListView listViewofRecipes;
     RecipeHolderLookup lookup;
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         nameTxt = findViewById(R.id.nameTxt);
         testBtn = findViewById(R.id.testBtn);
-        AddRecipeButton = findViewById(R.id.addRecipeId);
         listViewofRecipes = (ListView) findViewById(R.id.ListViewRecipes);
         recipeHolderDatabase = FirebaseDatabase.getInstance().getReference("recipeHolder");
         lookup = new RecipeHolderLookup(recipeHolderDatabase);
@@ -61,13 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-        AddRecipeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addRecipeById();
-            }
-        });
 
 
         searchIdButton.setOnClickListener(new View.OnClickListener() {
@@ -90,12 +81,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void addRecipeById() {
-        lookup.addtoRecipeHolderTable(enterRecipeName);
-    }
 
     public void searchId(View v){
-        new Thread(new RecipeIdSearchRunnable("156992",this)).start(); // Using static data now will be modified later "just as proof of concept"
+        new Thread(new RecipeIdSearchRunnable("156992",this, recipeHolderDatabase)).start(); // Using static data now will be modified later "just as proof of concept"
 
     }
 

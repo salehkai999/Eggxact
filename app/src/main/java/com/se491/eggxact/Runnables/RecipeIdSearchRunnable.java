@@ -3,8 +3,10 @@ package com.se491.eggxact.Runnables;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.firebase.database.DatabaseReference;
 import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.MainActivity;
+import com.se491.eggxact.structure.RecipeHolderLookup;
 import com.se491.eggxact.structure.RecipeInfo;
 
 import org.json.JSONArray;
@@ -26,10 +28,12 @@ public class RecipeIdSearchRunnable implements Runnable {
     private String queryID;
     private MainActivity mainActivity =null;
     private AdvSearchActivity advSearchActivity =null;
+    private RecipeHolderLookup lookup;
 
-    public RecipeIdSearchRunnable(String queryID, MainActivity mainActivity) {
+    public RecipeIdSearchRunnable(String queryID, MainActivity mainActivity, DatabaseReference reference) {
         this.queryID = queryID;
         this.mainActivity = mainActivity;
+        lookup = new RecipeHolderLookup(reference);
     }
 
     public RecipeIdSearchRunnable(String queryID, AdvSearchActivity advSearchActivity) {
@@ -104,6 +108,9 @@ public class RecipeIdSearchRunnable implements Runnable {
             recipeInfo.setInstructions(jsonObject.getString("instructions"));
             JSONArray jsonArray = jsonObject.getJSONArray("extendedIngredients");
             //Log.d(TAG, "processData: "+jsonArray.length());
+
+            lookup.addtoRecipeHolderTable(recipeInfo.getName(), queryID);
+
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jObj = jsonArray.getJSONObject(i);
                 recipeInfo.addIngredient(jObj.getString("originalString"));
