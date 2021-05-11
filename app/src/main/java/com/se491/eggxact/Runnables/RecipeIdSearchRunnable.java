@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.se491.eggxact.AdvSearchActivity;
+import com.se491.eggxact.LandingPageActivity;
 import com.se491.eggxact.MainActivity;
 import com.se491.eggxact.structure.RecipeInfo;
 
@@ -24,12 +25,12 @@ public class RecipeIdSearchRunnable implements Runnable {
     private static final String URL_PART1 = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/"; // id goes after p1 then p2
     private static final String URL_PART2 = "/information";
     private String queryID;
-    private MainActivity mainActivity =null;
     private AdvSearchActivity advSearchActivity =null;
+    private LandingPageActivity landingPageActivity;
 
-    public RecipeIdSearchRunnable(String queryID, MainActivity mainActivity) {
+    public RecipeIdSearchRunnable(String queryID, LandingPageActivity landingPageActivity) {
         this.queryID = queryID;
-        this.mainActivity = mainActivity;
+        this.landingPageActivity = landingPageActivity;
     }
 
     public RecipeIdSearchRunnable(String queryID, AdvSearchActivity advSearchActivity) {
