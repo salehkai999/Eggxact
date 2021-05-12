@@ -18,6 +18,10 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".LandingPageActivity" />
         <activity android:name=".MainActivity">
+
+        <activity android:name=".RecipeActivity"></activity>
+<!--        <activity android:name=".AdvSearchActivity"></activity>-->
+        <activity android:name=".AdvSearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -85,6 +86,10 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         /* Moving to RecipeActivity here, pass the recipeInfo object .putExtra and in your activity it should check if there's an extra and use getSerializableExtra (You can comment out the logs)
             Logs are useful for debugging and getting the functionality right.
          */
+        Intent i = new Intent(this,RecipeActivity.class);
+        i.putExtra("RecipeInfo",recipeInfo);
+        startActivity(i);
+
 
 
 

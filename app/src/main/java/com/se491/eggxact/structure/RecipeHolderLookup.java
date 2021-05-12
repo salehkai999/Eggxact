@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.MainActivity;
 
@@ -26,10 +27,7 @@ public class RecipeHolderLookup {
         recipes = new ArrayList<>();
     }
 
-    public void addtoRecipeHolderTable(EditText enterRecipeName) {
-        String recipeName = enterRecipeName.getText().toString().trim();
-        String recipeId = "123";
-
+    public void addtoRecipeHolderTable(String recipeName, String recipeId) {
         if (!TextUtils.isEmpty(recipeName)) {
             //create a new string at that json location
             String id = recipeHolderDatabase.push().getKey();
@@ -38,7 +36,8 @@ public class RecipeHolderLookup {
         }
     }
 
-    public void selectFromRecipeHolder(String recipeName, Activity context, ListView listViewofRecipes) {
+
+    public void selectFromRecipeHolder(String recipeId, Activity context, ListView listViewofRecipes) {
         recipeHolderDatabase.addValueEventListener(new ValueEventListener() {
             //executed every time db changes
             @Override
@@ -47,7 +46,7 @@ public class RecipeHolderLookup {
                 recipes.clear();
                 for (DataSnapshot recipeSnapshot : snapshot.getChildren()) {
                     Recipe recipe = recipeSnapshot.getValue(Recipe.class);
-                    if (recipe.getRecipeName().equals(recipeName)) {
+                    if (recipe.getRecipeId().equals(recipeId)) {
                         recipes.add(recipe);
                         break;
                     }
