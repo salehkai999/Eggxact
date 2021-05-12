@@ -71,11 +71,11 @@ public class RecipeSearchRunnable implements Runnable {
             while ((data = bufferedReader.readLine()) != null) {
                 strBuilder.append(data).append("\n");
             }
-            Log.d(TAG, "run: "+strBuilder.toString());
+            Log.d(TAG, "run:2 "+strBuilder.toString());
             processData(strBuilder.toString());
         }
         catch (Exception e){
-            Log.d(TAG, "run: "+e.toString());
+            Log.d(TAG, "run:3 "+e.toString());
         }
 
     }
@@ -90,10 +90,11 @@ public class RecipeSearchRunnable implements Runnable {
                 Recipe recipe = new Recipe(jsonObject.getString("id"),jsonObject.getString("title"));
                 Log.d(TAG, "processData: ID "+jsonObject.getString("id"));
                 Log.d(TAG, "processData: Title "+jsonObject.getString("title"));
+                RECIPE_ARRAY_LIST.add(recipe);
                 Log.d(TAG, "processData: readyInMinutes "+jsonObject.getInt("readyInMinutes"));
                 Log.d(TAG, "processData: servings "+jsonObject.getInt("servings"));
                 Log.d(TAG, "processData: sourceUrl "+jsonObject.getString("sourceUrl"));
-                RECIPE_ARRAY_LIST.add(recipe);
+
             }
             advSearchActivity.runOnUiThread(new Runnable() {
                 @Override
@@ -103,7 +104,7 @@ public class RecipeSearchRunnable implements Runnable {
             });
         }
         catch (Exception e){
-            Log.d(TAG, "run: "+e.toString());
+            Log.d(TAG, "run:4 "+e.toString());
         }
     }
 

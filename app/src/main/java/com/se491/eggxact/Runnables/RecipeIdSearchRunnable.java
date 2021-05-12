@@ -97,22 +97,29 @@ public class RecipeIdSearchRunnable implements Runnable {
             RecipeInfo recipeInfo = new RecipeInfo();
             JSONObject jsonObject = new JSONObject(data);
            // Log.d(TAG, "processData: Title "+jsonObject.getString("title"));
-            recipeInfo.setName(jsonObject.getString("title"));
+            if(jsonObject.has("title"))
+                recipeInfo.setName(jsonObject.getString("title"));
            // Log.d(TAG, "processData: Mins "+jsonObject.getString("readyInMinutes"));
-            recipeInfo.setReadyMinutes(jsonObject.getInt("readyInMinutes"));
+            if(jsonObject.has("readyInMinutes"))
+                recipeInfo.setReadyMinutes(jsonObject.getInt("readyInMinutes"));
             // Log.d(TAG, "processData: Cooking MiNUTES "+jsonObject.getString("cookingMinutes"));
-            recipeInfo.setCookingTime(jsonObject.getInt("cookingMinutes"));
-
-            recipeInfo.setPrepTime(jsonObject.getInt("preparationMinutes"));
-            recipeInfo.setHealthScore(jsonObject.getDouble("healthScore"));
+            if(jsonObject.has("cookingMinutes"))
+                recipeInfo.setCookingTime(jsonObject.getInt("cookingMinutes"));
+            if(jsonObject.has("preparationMinutes"))
+                recipeInfo.setPrepTime(jsonObject.getInt("preparationMinutes"));
+            if(jsonObject.has("healthScore"))
+                recipeInfo.setHealthScore(jsonObject.getDouble("healthScore"));
           // Log.d(TAG, "processData: Img "+jsonObject.getString("image"));
-            recipeInfo.setImgURL(jsonObject.getString("image"));
+            if(jsonObject.has("image"))
+                recipeInfo.setImgURL(jsonObject.getString("image"));
            // Log.d(TAG, "processData: Instructions "+jsonObject.getString("instructions"));
-            recipeInfo.setInstructions(jsonObject.getString("instructions"));
+            if(jsonObject.has("instructions"))
+                recipeInfo.setInstructions(jsonObject.getString("instructions"));
             JSONArray jsonArray = jsonObject.getJSONArray("extendedIngredients");
             //Log.d(TAG, "processData: "+jsonArray.length());
 
-            lookup.addtoRecipeHolderTable(recipeInfo.getName(), queryID);
+
+            //lookup.addtoRecipeHolderTable(recipeInfo.getName(), queryID);
 
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jObj = jsonArray.getJSONObject(i);
