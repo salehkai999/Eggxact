@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,11 +41,15 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recipeAdapter);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         searchByName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                if ((actionId == EditorInfo.IME_ACTION_GO)) {
                     Log.i(TAG,"Enter pressed");
                     Log.d(TAG, "onEditorAction: "+getBaseContext().toString());
                     if(searchByName.getText().toString().trim().isEmpty()){
@@ -89,9 +94,7 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         Intent i = new Intent(this,RecipeActivity.class);
         i.putExtra("RecipeInfo",recipeInfo);
         startActivity(i);
-
-
-
-
     }
+    
+
 }

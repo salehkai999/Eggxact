@@ -34,6 +34,7 @@ public class RecipeIdSearchRunnable implements Runnable {
     public RecipeIdSearchRunnable(String queryID, LandingPageActivity landingPageActivity) {
         this.queryID = queryID;
         this.landingPageActivity = landingPageActivity;
+    }
 
     private RecipeHolderLookup lookup;
 

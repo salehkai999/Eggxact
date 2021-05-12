@@ -15,6 +15,7 @@
         android:ems="10"
         android:hint="burger"
         android:inputType="textPersonName"
+        android:imeOptions="actionGo"
         app:layout_constraintBottom_toTopOf="@+id/recycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

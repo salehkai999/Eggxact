@@ -46,7 +46,9 @@ public class LandingPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
 
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
 
         nameTxt = findViewById(R.id.nameTxt);
@@ -89,11 +91,16 @@ public class LandingPageActivity extends AppCompatActivity {
     }
 
     private void addRecipeById() {
-        lookup.addtoRecipeHolderTable(enterRecipeName);
+       // lookup.addtoRecipeHolderTable(enterRecipeName);
     }
 
     public void searchId(View v){
         new Thread(new RecipeIdSearchRunnable("156992",this)).start(); // Using static data now will be modified later "just as proof of concept"
+    }
+
+    public void nameSearch(View v){
+        Intent searchIntent = new Intent(this,AdvSearchActivity.class);
+        startActivity(searchIntent);
     }
 
     private void firebaseTestCall(){
