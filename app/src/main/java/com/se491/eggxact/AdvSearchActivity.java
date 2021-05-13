@@ -95,6 +95,6 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         i.putExtra("RecipeInfo",recipeInfo);
         startActivity(i);
     }
-    
+
 
 }

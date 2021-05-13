@@ -51,6 +51,8 @@ public class LandingPageActivity extends AppCompatActivity {
         }
 
 
+        
+
         nameTxt = findViewById(R.id.nameTxt);
         testBtn = findViewById(R.id.testBtn);
         AddRecipeButton = findViewById(R.id.addRecipeId);
