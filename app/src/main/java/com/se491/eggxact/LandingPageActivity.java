@@ -2,6 +2,7 @@ package com.se491.eggxact;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.structure.RecipeHolderLookup;
+import com.se491.eggxact.ui.landingpage.FragmentAdapter;
 
 public class LandingPageActivity extends AppCompatActivity {
 
@@ -40,6 +43,8 @@ public class LandingPageActivity extends AppCompatActivity {
     ListView listViewofRecipes;
     RecipeHolderLookup lookup;
 
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +55,39 @@ public class LandingPageActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.pager);
+        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
 
-        
+        TabLayout.Tab t1 = tabLayout.getTabAt(0);
+        if (t1 != null) {
+            t1.setIcon(R.drawable.baseline_home_24);
+        }
+        TabLayout.Tab t2 = tabLayout.getTabAt(1);
+        if (t2 != null) {
+            t2.setIcon(R.drawable.baseline_article_24);
+        }
+        TabLayout.Tab t3 = tabLayout.getTabAt(2);
+        if (t3 != null) {
+            t3.setIcon(R.drawable.outline_shuffle_24);
+        }
 
+        TabLayout.Tab t4 = tabLayout.getTabAt(3);
+        if (t4 != null) {
+            t4.setIcon(R.drawable.baseline_favorite_24);
+        }
+
+        TabLayout.Tab t5 = tabLayout.getTabAt(4);
+        if(t5 != null){
+            t5.setIcon(R.drawable.outline_account_circle_24);
+        }
+
+
+
+
+        /*
         nameTxt = findViewById(R.id.nameTxt);
         testBtn = findViewById(R.id.testBtn);
         AddRecipeButton = findViewById(R.id.addRecipeId);
@@ -84,12 +119,13 @@ public class LandingPageActivity extends AppCompatActivity {
         /* another way to implement buttons is .setOnClickListener or via the layout designer.
          * Keep in mind the method should be like this methodName(View v){ } when using the designer.
          * */
+        /*
         testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 firebaseTestCall();
             }
-        });
+        }); */
     }
 
     private void addRecipeById() {
