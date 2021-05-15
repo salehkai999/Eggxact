@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="@+id/headerImg" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/constraintLayoutLanding"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="1dp"
@@ -38,6 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerImg">
+
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"

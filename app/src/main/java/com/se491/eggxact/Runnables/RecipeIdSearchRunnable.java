@@ -9,6 +9,8 @@ import com.se491.eggxact.LandingPageActivity;
 import com.se491.eggxact.MainActivity;
 import com.se491.eggxact.structure.RecipeHolderLookup;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.ui.ratingsact.RatingsActAdapter;
+import com.se491.eggxact.ui.ratingsact.RatingsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,6 +32,7 @@ public class RecipeIdSearchRunnable implements Runnable {
     private String queryID;
     private AdvSearchActivity advSearchActivity =null;
     private LandingPageActivity landingPageActivity;
+    private RatingsActivity ratingsActivity;
 
     public RecipeIdSearchRunnable(String queryID, LandingPageActivity landingPageActivity) {
         this.queryID = queryID;
@@ -49,6 +52,11 @@ public class RecipeIdSearchRunnable implements Runnable {
     public RecipeIdSearchRunnable(String queryID, AdvSearchActivity advSearchActivity) {
         this.queryID = queryID;
         this.advSearchActivity = advSearchActivity;
+    }
+
+    public RecipeIdSearchRunnable(String queryID,RatingsActivity ratingsActivity){
+        this.queryID = queryID;
+        this.ratingsActivity = ratingsActivity;
     }
 
     public RecipeIdSearchRunnable(String queryID) {
@@ -145,6 +153,15 @@ public class RecipeIdSearchRunnable implements Runnable {
                     @Override
                     public void run() {
                         advSearchActivity.passRecipeObject(recipeInfo);
+                    }
+                });
+            }
+
+            if(ratingsActivity != null){
+                ratingsActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ratingsActivity.passRecipeObject(recipeInfo);
                     }
                 });
             }

@@ -18,7 +18,9 @@ import java.util.Arrays;
 public class CategoriesFragment extends Fragment {
 
     RecyclerView recyclerView;
-    CatAdapter catAdapter;
+    RecyclerView recyclerViewTwo;
+    CatAdapter catAdapterR1;
+    CatAdapter catAdapterR2;
     ArrayList<String> catList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian","Korean","Asian"));
 
 
@@ -43,9 +45,13 @@ public class CategoriesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_categories, container, false);
         recyclerView = fragmentView.findViewById(R.id.catFragRecycler);
-        catAdapter = new CatAdapter(catList);
+        recyclerViewTwo = fragmentView.findViewById(R.id.catFragRecycler2);
+        catAdapterR1 = new CatAdapter(catList);
+        catAdapterR2 = new CatAdapter(catList);
         recyclerView.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
-        recyclerView.setAdapter(catAdapter);
+        recyclerView.setAdapter(catAdapterR1);
+        recyclerViewTwo.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
+        recyclerViewTwo.setAdapter(catAdapterR2);
 
         return fragmentView;
     }

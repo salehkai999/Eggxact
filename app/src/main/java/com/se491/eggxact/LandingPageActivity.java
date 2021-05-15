@@ -177,4 +177,7 @@ public class LandingPageActivity extends AppCompatActivity {
     }
 
 
+    public void passRecipeObject(RecipeInfo recipeInfo) {
+        Log.d(TAG, "passRecipeObject: "+recipeInfo.toString());
+    }
 }

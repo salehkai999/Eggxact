@@ -1,5 +1,10 @@
 package com.se491.eggxact.structure;
 
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -16,9 +21,11 @@ public class RecipeInfo implements Serializable {
     private String instructions;
     private String imgURL;
     private final ArrayList<String> ingredients = new ArrayList<>();
+    private static final String TAG = "RecipeInfo";
 
     public RecipeInfo() {
     }
+
 
     public String getName() {
         return name;

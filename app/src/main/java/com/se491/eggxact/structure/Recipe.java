@@ -2,7 +2,9 @@ package com.se491.eggxact.structure;
 
 import com.google.firebase.database.DatabaseReference;
 
-public class Recipe implements Comparable<Recipe> {
+import java.io.Serializable;
+
+public class Recipe implements Comparable<Recipe>, Serializable {
 
 
     /*
