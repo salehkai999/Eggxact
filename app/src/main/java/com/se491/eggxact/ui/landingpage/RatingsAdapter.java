@@ -8,14 +8,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.se491.eggxact.R;
+import com.se491.eggxact.structure.Recipe;
 
 import java.util.ArrayList;
 
 public class RatingsAdapter extends RecyclerView.Adapter<RatingsViewHolder> {
 
-    ArrayList<String> ratingsList;
+    ArrayList<Recipe> ratingsList;
 
-    public RatingsAdapter(ArrayList<String> ratingsList) {
+    public RatingsAdapter(ArrayList<Recipe> ratingsList) {
         this.ratingsList = ratingsList;
     }
 
@@ -29,7 +30,9 @@ public class RatingsAdapter extends RecyclerView.Adapter<RatingsViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull  RatingsViewHolder holder, int position) {
-        holder.cardTxt.setText(ratingsList.get(position));
+        holder.title.setText(ratingsList.get(position).getRecipeName());
+        holder.likes.setText(String.valueOf(ratingsList.get(position).getLikes()));
+        holder.disLikes.setText(String.valueOf(ratingsList.get(position).getDislikes()));
     }
 
     @Override

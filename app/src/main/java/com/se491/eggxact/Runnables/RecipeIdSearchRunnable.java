@@ -22,7 +22,7 @@ import java.net.URL;
 public class RecipeIdSearchRunnable implements Runnable {
 
     private static final String TAG = "RecipeIdSearchRunnable";
-    private static final String API_KEY = "8694c31524msh9489d792de20f42p137d32jsn7a3cd585ce55"; // use your own
+    private static final String API_KEY = "8694c31524msh9489d792de20f42p137d32jsn7a3cd585ce55"; // use your own {SALEH's KEY}
 //    private static final String API_KEY = "217a7dc8ecmsh533b2d067f06a22p19bd78jsn3ace3adb1dc0"; // Korey Key
     private static final String HOST = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
     private static final String URL_PART1 = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/"; // id goes after p1 then p2
@@ -124,7 +124,9 @@ public class RecipeIdSearchRunnable implements Runnable {
            // Log.d(TAG, "processData: Instructions "+jsonObject.getString("instructions"));
             if(jsonObject.has("instructions"))
                 recipeInfo.setInstructions(jsonObject.getString("instructions"));
-            JSONArray jsonArray = jsonObject.getJSONArray("extendedIngredients");
+            JSONArray jsonArray = new JSONArray();
+            if(jsonObject.has("extendedIngredients"))
+             jsonArray = jsonObject.getJSONArray("extendedIngredients");
             //Log.d(TAG, "processData: "+jsonArray.length());
 
 

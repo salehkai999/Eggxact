@@ -23,9 +23,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.se491.eggxact.Runnables.RandomRecipeRunnable;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.structure.RecipeHolderLookup;
+import com.se491.eggxact.structure.RecipeInfo;
 import com.se491.eggxact.ui.landingpage.FragmentAdapter;
+import com.se491.eggxact.ui.landingpage.RandomFragment;
 
 public class LandingPageActivity extends AppCompatActivity {
 
@@ -54,6 +57,8 @@ public class LandingPageActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
+        //new Thread(new RandomRecipeRunnable(this)).start();
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.pager);

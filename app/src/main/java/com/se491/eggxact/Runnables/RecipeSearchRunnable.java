@@ -82,6 +82,8 @@ public class RecipeSearchRunnable implements Runnable {
 
     private void processData(String data) {
         try {
+            long upperNum = 1000;
+            long lowerNum = 0;
             RECIPE_ARRAY_LIST.clear();
             JSONObject jsonObject = new JSONObject(data);
             JSONArray jsonArray = jsonObject.getJSONArray("results");
@@ -94,6 +96,12 @@ public class RecipeSearchRunnable implements Runnable {
                 Log.d(TAG, "processData: readyInMinutes "+jsonObject.getInt("readyInMinutes"));
                 Log.d(TAG, "processData: servings "+jsonObject.getInt("servings"));
                 Log.d(TAG, "processData: sourceUrl "+jsonObject.getString("sourceUrl"));
+                if(jsonObject.has("sourceUrl"))
+                    recipe.setSourceUrl(jsonObject.getString("sourceUrl"));
+                recipe.setLikes((long)Math.floor(Math.random()*(upperNum-lowerNum+1)+lowerNum));
+                recipe.setDislikes((long)Math.floor(Math.random()*(upperNum-lowerNum+1)+lowerNum));
+                Log.d(TAG, "processData: "+recipe.toString());
+
 
             }
             advSearchActivity.runOnUiThread(new Runnable() {

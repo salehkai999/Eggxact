@@ -9,9 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.se491.eggxact.R;
 
 public class RatingsViewHolder extends RecyclerView.ViewHolder {
-    TextView cardTxt;
+    TextView title;
+    TextView likes;
+    TextView disLikes;
     public RatingsViewHolder(@NonNull View itemView) {
         super(itemView);
-        cardTxt = itemView.findViewById(R.id.titleRatingRecycler);
+        title = itemView.findViewById(R.id.titleRatingRecycler);
+        likes = itemView.findViewById(R.id.likesTxt);
+        disLikes = itemView.findViewById(R.id.dislikesTxt);
     }
 }
