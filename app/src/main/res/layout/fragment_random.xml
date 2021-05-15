@@ -96,17 +96,6 @@
             app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/randomInstructionTitle" />
-
-        <Button
-            android:id="@+id/generate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="generate"
-            android:text="Generate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/randomPrepTime"
-            app:layout_constraintTop_toBottomOf="@+id/randomTitle" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

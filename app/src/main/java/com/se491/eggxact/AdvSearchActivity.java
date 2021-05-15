@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.se491.eggxact.Runnables.RandomRecipeRunnable;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.Runnables.RecipeSearchRunnable;
 import com.se491.eggxact.structure.Recipe;
@@ -47,6 +48,8 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
+       // new Thread(new RandomRecipeRunnable()).start();
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
 
