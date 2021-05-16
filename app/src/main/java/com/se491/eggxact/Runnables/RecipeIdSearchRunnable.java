@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.LandingPageActivity;
 import com.se491.eggxact.MainActivity;
+import com.se491.eggxact.R;
 import com.se491.eggxact.structure.RecipeHolderLookup;
 import com.se491.eggxact.structure.RecipeInfo;
 import com.se491.eggxact.ui.ratingsact.RatingsActAdapter;
@@ -24,7 +25,7 @@ import java.net.URL;
 public class RecipeIdSearchRunnable implements Runnable {
 
     private static final String TAG = "RecipeIdSearchRunnable";
-    private static final String API_KEY = "8694c31524msh9489d792de20f42p137d32jsn7a3cd585ce55"; // use your own {SALEH's KEY}
+    private static String API_KEY = "";
 //    private static final String API_KEY = "217a7dc8ecmsh533b2d067f06a22p19bd78jsn3ace3adb1dc0"; // Korey Key
     private static final String HOST = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
     private static final String URL_PART1 = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/"; // id goes after p1 then p2
@@ -52,11 +53,13 @@ public class RecipeIdSearchRunnable implements Runnable {
     public RecipeIdSearchRunnable(String queryID, AdvSearchActivity advSearchActivity) {
         this.queryID = queryID;
         this.advSearchActivity = advSearchActivity;
+        API_KEY = this.advSearchActivity.getString(R.string.API_KEY1);
     }
 
     public RecipeIdSearchRunnable(String queryID,RatingsActivity ratingsActivity){
         this.queryID = queryID;
         this.ratingsActivity = ratingsActivity;
+        API_KEY = this.ratingsActivity.getString(R.string.API_KEY1);
     }
 
     public RecipeIdSearchRunnable(String queryID) {
