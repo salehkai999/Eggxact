@@ -7,8 +7,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.LandingPageActivity;
 import com.se491.eggxact.MainActivity;
+import com.se491.eggxact.R;
 import com.se491.eggxact.structure.RecipeHolderLookup;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.ui.ratingsact.RatingsActAdapter;
+import com.se491.eggxact.ui.ratingsact.RatingsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,7 +25,7 @@ import java.net.URL;
 public class RecipeIdSearchRunnable implements Runnable {
 
     private static final String TAG = "RecipeIdSearchRunnable";
-    private static final String API_KEY = "8694c31524msh9489d792de20f42p137d32jsn7a3cd585ce55"; // use your own
+    private static String API_KEY = "";
 //    private static final String API_KEY = "217a7dc8ecmsh533b2d067f06a22p19bd78jsn3ace3adb1dc0"; // Korey Key
     private static final String HOST = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
     private static final String URL_PART1 = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/"; // id goes after p1 then p2
@@ -30,6 +33,7 @@ public class RecipeIdSearchRunnable implements Runnable {
     private String queryID;
     private AdvSearchActivity advSearchActivity =null;
     private LandingPageActivity landingPageActivity;
+    private RatingsActivity ratingsActivity;
 
     public RecipeIdSearchRunnable(String queryID, LandingPageActivity landingPageActivity) {
         this.queryID = queryID;
@@ -49,6 +53,13 @@ public class RecipeIdSearchRunnable implements Runnable {
     public RecipeIdSearchRunnable(String queryID, AdvSearchActivity advSearchActivity) {
         this.queryID = queryID;
         this.advSearchActivity = advSearchActivity;
+        API_KEY = this.advSearchActivity.getString(R.string.API_KEY1);
+    }
+
+    public RecipeIdSearchRunnable(String queryID,RatingsActivity ratingsActivity){
+        this.queryID = queryID;
+        this.ratingsActivity = ratingsActivity;
+        API_KEY = this.ratingsActivity.getString(R.string.API_KEY1);
     }
 
     public RecipeIdSearchRunnable(String queryID) {
@@ -124,7 +135,9 @@ public class RecipeIdSearchRunnable implements Runnable {
            // Log.d(TAG, "processData: Instructions "+jsonObject.getString("instructions"));
             if(jsonObject.has("instructions"))
                 recipeInfo.setInstructions(jsonObject.getString("instructions"));
-            JSONArray jsonArray = jsonObject.getJSONArray("extendedIngredients");
+            JSONArray jsonArray = new JSONArray();
+            if(jsonObject.has("extendedIngredients"))
+             jsonArray = jsonObject.getJSONArray("extendedIngredients");
             //Log.d(TAG, "processData: "+jsonArray.length());
 
 
@@ -143,6 +156,15 @@ public class RecipeIdSearchRunnable implements Runnable {
                     @Override
                     public void run() {
                         advSearchActivity.passRecipeObject(recipeInfo);
+                    }
+                });
+            }
+
+            if(ratingsActivity != null){
+                ratingsActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ratingsActivity.passRecipeObject(recipeInfo);
                     }
                 });
             }

@@ -6,80 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".LandingPageActivity">
 
-
-    <EditText
-        android:id="@+id/nameTxt"
+    <ImageView
+        android:id="@+id/headerImg"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:ems="10"
-        android:hint="TypeName"
-        android:inputType="textPersonName"
+        android:layout_height="110dp"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/searchName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
-        android:onClick="nameSearch"
-        android:text="Search By Name"
-        app:layout_constraintBottom_toTopOf="@+id/searchId"
-        app:layout_constraintEnd_toStartOf="@+id/dataTxt"
-        app:layout_constraintTop_toBottomOf="@+id/testBtn" />
-
-    <Button
-        android:id="@+id/testBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameTxt" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/header" />
 
     <TextView
-        android:id="@+id/dataTxt"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:textSize="30sp"
+        android:text="What do you wanna eat?"
+        android:textColor="#FF0202"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/nameTxt"
-        app:layout_constraintStart_toStartOf="@+id/nameTxt"
-        app:layout_constraintTop_toBottomOf="@+id/testBtn" />
+        app:layout_constraintBottom_toBottomOf="@+id/headerImg"
+        app:layout_constraintEnd_toEndOf="@+id/headerImg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/headerImg" />
 
-    <Button
-        android:id="@+id/searchId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:onClick="searchId"
-        android:text="Search By ID"
-        app:layout_constraintEnd_toEndOf="@+id/testBtn"
-        app:layout_constraintStart_toStartOf="@+id/testBtn"
-        app:layout_constraintTop_toBottomOf="@+id/dataTxt" />
-
-    <Button
-        android:id="@+id/addRecipeId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="addRecipe"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutLanding"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toTopOf="@id/tabLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchId" />
+        app:layout_constraintTop_toBottomOf="@+id/headerImg">
 
-    <ListView
-        android:id="@+id/ListViewRecipes"
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#976BE6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </androidx.viewpager.widget.ViewPager>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        style="@style/CustomTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="400dp"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
+        android:layout_height="wrap_content"
+        android:background="#090909"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

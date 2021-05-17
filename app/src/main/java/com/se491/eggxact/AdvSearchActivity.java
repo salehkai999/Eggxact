@@ -16,6 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.se491.eggxact.Runnables.RandomRecipeRunnable;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.Runnables.RecipeSearchRunnable;
 import com.se491.eggxact.structure.Recipe;
@@ -28,6 +31,7 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
 
     private static final String TAG = "AdvSearchActivity";
     private static final ArrayList<Recipe> recipeList = new ArrayList<>();
+    private DatabaseReference databaseReference;
     RecyclerView recyclerView;
     RecipeAdapter recipeAdapter;
     EditText searchByName;
@@ -44,6 +48,10 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
+       // new Thread(new RandomRecipeRunnable()).start();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
 
         searchByName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -74,7 +82,15 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         recipeList.clear();
         recipeList.addAll(recipeArrayList);
         recipeAdapter.notifyDataSetChanged();
+       // saveDataToDB();
         Log.d(TAG, "showData: "+recipeList.size());
+    }
+
+    private void saveDataToDB() {
+        Log.d(TAG, "saveDataToDB: ");
+        for(Recipe r : recipeList){
+            databaseReference.push().setValue(r);
+        }
     }
 
     @Override
@@ -95,6 +111,6 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         i.putExtra("RecipeInfo",recipeInfo);
         startActivity(i);
     }
-    
+
 
 }

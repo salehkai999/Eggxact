@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.MainActivity;
+import com.se491.eggxact.R;
 import com.se491.eggxact.structure.Recipe;
 
 import org.json.JSONArray;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class RecipeSearchRunnable implements Runnable {
 
     private static final String TAG = "RecipeSearchRunnable";
-    private static final String API_KEY = "8694c31524msh9489d792de20f42p137d32jsn7a3cd585ce55";
+    private static String API_KEY = "";
     private static final String HOST = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
     private static final String URL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search";
     private static final ArrayList<Recipe> RECIPE_ARRAY_LIST = new ArrayList<>();
@@ -30,13 +31,13 @@ public class RecipeSearchRunnable implements Runnable {
 
     public RecipeSearchRunnable(AdvSearchActivity advSearchActivity, String query) {
         this.advSearchActivity = advSearchActivity;
+        API_KEY = this.advSearchActivity.getString(R.string.API_KEY1);
         this.query = query;
     }
 
 
     @Override
     public void run() {
-
         Uri.Builder builder = Uri.parse(URL).buildUpon();
         builder.appendQueryParameter("query",query);
         builder.appendQueryParameter("number","20");
@@ -82,6 +83,8 @@ public class RecipeSearchRunnable implements Runnable {
 
     private void processData(String data) {
         try {
+            long upperNum = 1000;
+            long lowerNum = 0;
             RECIPE_ARRAY_LIST.clear();
             JSONObject jsonObject = new JSONObject(data);
             JSONArray jsonArray = jsonObject.getJSONArray("results");
@@ -94,6 +97,12 @@ public class RecipeSearchRunnable implements Runnable {
                 Log.d(TAG, "processData: readyInMinutes "+jsonObject.getInt("readyInMinutes"));
                 Log.d(TAG, "processData: servings "+jsonObject.getInt("servings"));
                 Log.d(TAG, "processData: sourceUrl "+jsonObject.getString("sourceUrl"));
+                if(jsonObject.has("sourceUrl"))
+                    recipe.setSourceUrl(jsonObject.getString("sourceUrl"));
+                recipe.setLikes((long)Math.floor(Math.random()*(upperNum-lowerNum+1)+lowerNum));
+                recipe.setDislikes((long)Math.floor(Math.random()*(upperNum-lowerNum+1)+lowerNum));
+                Log.d(TAG, "processData: "+recipe.toString());
+
 
             }
             advSearchActivity.runOnUiThread(new Runnable() {
