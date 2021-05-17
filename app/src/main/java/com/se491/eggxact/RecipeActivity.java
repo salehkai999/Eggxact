@@ -63,7 +63,7 @@ public class RecipeActivity extends AppCompatActivity {
         ingredientsView.setAdapter(ingredientsAdapter);
         ingredientsView.setLayoutManager(new LinearLayoutManager(this));
 
-        instructionsView.setText(recipeInfo.getInstructions());
+        instructionsView.setText(recipeInfo.getInstructions().replaceAll("\\<.*?>",""));
         instructionsView.setMovementMethod(new ScrollingMovementMethod());
 
 
