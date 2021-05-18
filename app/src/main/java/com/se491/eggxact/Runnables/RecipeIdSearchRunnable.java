@@ -26,7 +26,7 @@ public class RecipeIdSearchRunnable implements Runnable {
 
     private static final String TAG = "RecipeIdSearchRunnable";
     private static String API_KEY = "";
-//    private static final String API_KEY = "217a7dc8ecmsh533b2d067f06a22p19bd78jsn3ace3adb1dc0"; // Korey Key
+    //private static final String API_KEY = "217a7dc8ecmsh533b2d067f06a22p19bd78jsn3ace3adb1dc0"; // Korey Key
     private static final String HOST = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
     private static final String URL_PART1 = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/"; // id goes after p1 then p2
     private static final String URL_PART2 = "/information";
