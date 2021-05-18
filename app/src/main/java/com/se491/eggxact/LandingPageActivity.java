@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,9 +36,11 @@ public class LandingPageActivity extends AppCompatActivity {
 
 
     private static final String TAG = "LandingPageActivity";
+    private ImageView headerImg;
+    private TextView headerTxt;
     EditText nameTxt;
     TextView dataTxt;
-    Button testBtn;
+
 
     EditText enterRecipeName;
     Button searchIdButton;
@@ -59,6 +62,9 @@ public class LandingPageActivity extends AppCompatActivity {
         }
 
         //new Thread(new RandomRecipeRunnable(this)).start();
+
+        headerImg = findViewById(R.id.headerImg);
+        headerTxt = findViewById(R.id.headerTxt);
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.pager);
@@ -131,6 +137,16 @@ public class LandingPageActivity extends AppCompatActivity {
                 firebaseTestCall();
             }
         }); */
+    }
+
+    public void hideBar(){
+        headerImg.setVisibility(View.INVISIBLE);
+        headerTxt.setVisibility(View.INVISIBLE);
+    }
+
+    public void unhideBar(){
+        headerImg.setVisibility(View.VISIBLE);
+        headerTxt.setVisibility(View.VISIBLE);
     }
 
     private void addRecipeById() {

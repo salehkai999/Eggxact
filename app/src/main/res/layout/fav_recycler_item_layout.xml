@@ -29,15 +29,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="350dp" />
+        app:layout_constraintGuide_begin="290dp" />
 
     <ImageView
         android:id="@+id/favRecImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/favRecTitle"
+        app:layout_constraintEnd_toStartOf="@+id/guideline12"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="@+id/favRecTitle"
         app:srcCompat="@drawable/baseline_favorite_24" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="337dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
