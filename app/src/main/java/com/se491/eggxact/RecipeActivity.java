@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.se491.eggxact.structure.IngredientsAdapter;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeAdapter;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class RecipeActivity extends AppCompatActivity {
     TextView cookTimeView;
     TextView totalTimeView;
     TextView instructionsView;
-
+    ImageView recipeImg;
     RecyclerView ingredientsView;
 
     @Override
@@ -48,7 +50,7 @@ public class RecipeActivity extends AppCompatActivity {
         cookTimeView = findViewById(R.id.cookTime);
         totalTimeView = findViewById(R.id.totalTime);
         instructionsView = findViewById(R.id.instructions);
-
+        recipeImg = findViewById(R.id.recipeImg);
         ingredientsView = findViewById(R.id.ingredientsList);
 
 
@@ -66,6 +68,8 @@ public class RecipeActivity extends AppCompatActivity {
         instructionsView.setText(recipeInfo.getInstructions().replaceAll("\\<.*?>",""));
         instructionsView.setMovementMethod(new ScrollingMovementMethod());
 
+        Picasso.get().load(recipeInfo.getImgURL()).error(R.drawable.brokenimage)
+                .placeholder(R.drawable.placeholder).into(recipeImg);
 
 //        List<String> ingred = new ArrayList<String>();
 //        ingred.add("Lasagna Sheet");
