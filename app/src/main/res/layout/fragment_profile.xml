@@ -1,14 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.landingpage.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:hint="User Name"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_image" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/edit_profile"
+        android:layout_width="301dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="32dp"
+        android:hint="Edit Profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="255dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/blankavatar" />
+
+    <ImageView
+        android:id="@+id/favorites_img"
+        android:layout_width="52dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="64dp"
+        android:src="@drawable/baseline_favorite_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_name" />
+
+    <TextView
+        android:id="@+id/favorite_num"
+        android:layout_width="33dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="76dp"
+        android:text="17"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/favorites_img"
+        app:layout_constraintTop_toBottomOf="@+id/user_name" />
+
+    <TextView
+        android:id="@+id/review_num"
+        android:layout_width="33dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="8dp"
+        android:text="17"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/review_img"
+        app:layout_constraintTop_toBottomOf="@+id/favorites_img" />
+
+    <TextView
+        android:id="@+id/favorite_text"
+        android:layout_width="122dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="68dp"
+        android:text="Favorites"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/favorite_num"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_name" />
+
+    <TextView
+        android:id="@+id/review_text"
+        android:layout_width="122dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="48dp"
+        android:text="Reviews"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favorite_text" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_name" />
+
+    <ImageView
+        android:id="@+id/review_img"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="64dp"
+        android:src="@drawable/review_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favorites_img" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
