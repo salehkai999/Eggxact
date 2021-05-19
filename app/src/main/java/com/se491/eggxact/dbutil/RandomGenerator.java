@@ -41,6 +41,8 @@ public class RandomGenerator {
             @Override
             public void onCancelled(@NonNull  DatabaseError error) {
 
+
+                
             }
         });
 
