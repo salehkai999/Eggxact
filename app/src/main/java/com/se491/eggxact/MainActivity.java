@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
 
         RandomGenerator.getAll();
+        //todo add something here
     }
 }
 

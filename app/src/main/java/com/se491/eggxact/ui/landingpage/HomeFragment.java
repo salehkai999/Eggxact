@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.R;
+import com.se491.eggxact.ui.recommendation.RecommendationActivity;
 import com.se491.eggxact.ui.ratingsact.RatingsActivity;
 import com.se491.eggxact.structure.Recipe;
 
@@ -37,6 +38,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView recyclerView;
     RecyclerView ratedRecyclerView;
+    RecyclerView recommendationsRecyclerView;
     CatAdapter catAdapter;
     RatingsAdapter ratingsAdapter;
     ArrayList<String> catList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian"));
@@ -44,6 +46,7 @@ public class HomeFragment extends Fragment {
     DatabaseReference databaseReference;
     TextView catSeeAll;
     TextView ratedSeeAll;
+    TextView recommendationsSeeAll;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -68,6 +71,7 @@ public class HomeFragment extends Fragment {
         catSeeAll = fragmentView.findViewById(R.id.catSeeAll);
         recyclerView = fragmentView.findViewById(R.id.catRecycler);
         ratedSeeAll = fragmentView.findViewById(R.id.ratedSeeAll);
+        recommendationsSeeAll = fragmentView.findViewById((R.id.recommendationsSeeAll));
         catAdapter = new CatAdapter(catList);
         RecyclerView.LayoutManager horizontalLayout
                 = new LinearLayoutManager(fragmentView.getContext(),
@@ -101,6 +105,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RatingsActivity.class);
+                intent.putExtra("ratings",DB_RECIPE_LIST);
+                startActivity(intent);
+            }
+        });
+
+        recommendationsSeeAll.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RecommendationActivity.class);
                 intent.putExtra("ratings",DB_RECIPE_LIST);
                 startActivity(intent);
             }
