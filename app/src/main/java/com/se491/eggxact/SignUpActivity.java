@@ -16,7 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.se491.eggxact.ui.User;
+import com.se491.eggxact.structure.User;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText eFullname, ePhone, eEmail, ePassword;

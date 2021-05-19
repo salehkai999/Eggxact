@@ -1,4 +1,4 @@
-package com.se491.eggxact.ui;
+package com.se491.eggxact.structure;
 
 public class User {
     public String fullname, phone, email, password;
