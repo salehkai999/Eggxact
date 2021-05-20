@@ -38,9 +38,6 @@ public class RecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_u_i);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
 
         RecipeInfo recipeInfo = (RecipeInfo) getIntent().getSerializableExtra("RecipeInfo");
         Log.d("RecipeActivity", "passedRecipeObject: "+recipeInfo.toString());

@@ -45,9 +45,6 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recipeAdapter);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
 
        // new Thread(new RandomRecipeRunnable()).start();
 

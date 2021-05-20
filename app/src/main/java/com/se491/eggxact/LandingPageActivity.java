@@ -55,11 +55,9 @@ public class LandingPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_landing_page);
         setContentView(R.layout.activity_landing_page);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
 
         //new Thread(new RandomRecipeRunnable(this)).start();
 
