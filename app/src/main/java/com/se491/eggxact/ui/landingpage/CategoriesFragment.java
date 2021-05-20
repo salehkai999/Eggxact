@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.se491.eggxact.R;
+import com.se491.eggxact.dbutil.CategoriesHelper;
+import com.se491.eggxact.structure.Category;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +23,7 @@ public class CategoriesFragment extends Fragment {
     RecyclerView recyclerViewTwo;
     CatAdapter catAdapterR1;
     CatAdapter catAdapterR2;
-    ArrayList<String> catList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian","Korean","Asian"));
+    ArrayList<Category> catList = new ArrayList<>();
 
 
     public CategoriesFragment() {
@@ -40,10 +42,12 @@ public class CategoriesFragment extends Fragment {
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_categories, container, false);
+        catList = CategoriesHelper.getCategories();
         recyclerView = fragmentView.findViewById(R.id.catFragRecycler);
         recyclerViewTwo = fragmentView.findViewById(R.id.catFragRecycler2);
         catAdapterR1 = new CatAdapter(catList);
@@ -52,7 +56,8 @@ public class CategoriesFragment extends Fragment {
         recyclerView.setAdapter(catAdapterR1);
         recyclerViewTwo.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
         recyclerViewTwo.setAdapter(catAdapterR2);
-
+        catAdapterR1.notifyDataSetChanged();
+        catAdapterR2.notifyDataSetChanged();
         return fragmentView;
     }
 }

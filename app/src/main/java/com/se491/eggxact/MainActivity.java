@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.Runnables.*;
+import com.se491.eggxact.dbutil.CategoriesHelper;
 import com.se491.eggxact.dbutil.RandomGenerator;
 import com.se491.eggxact.structure.*;
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
 
         RandomGenerator.getAll();
+        CategoriesHelper.getAll();
     }
 }
 

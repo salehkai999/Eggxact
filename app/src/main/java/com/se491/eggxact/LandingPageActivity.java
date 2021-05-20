@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.Runnables.RandomRecipeRunnable;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
+import com.se491.eggxact.dbutil.CategoriesHelper;
 import com.se491.eggxact.structure.RecipeHolderLookup;
 import com.se491.eggxact.structure.RecipeInfo;
 import com.se491.eggxact.ui.landingpage.FragmentAdapter;
@@ -57,8 +58,6 @@ public class LandingPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_landing_page);
         setContentView(R.layout.activity_landing_page);
-
-
         //new Thread(new RandomRecipeRunnable(this)).start();
 
         headerImg = findViewById(R.id.headerImg);

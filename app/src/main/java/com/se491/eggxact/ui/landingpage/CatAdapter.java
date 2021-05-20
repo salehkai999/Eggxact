@@ -8,15 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.se491.eggxact.R;
+import com.se491.eggxact.structure.Category;
 
 import java.util.ArrayList;
 
 public class CatAdapter extends RecyclerView.Adapter<CatViewHolder> {
 
 
-    ArrayList<String> catList = new ArrayList<>();
+    ArrayList<Category> catList = new ArrayList<>();
 
-    public CatAdapter(ArrayList<String> catList) {
+    public CatAdapter(ArrayList<Category> catList) {
         this.catList = catList;
     }
 
@@ -29,7 +30,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull  CatViewHolder holder, int position) {
-        holder.cardTxt.setText(catList.get(position));
+        holder.cardTxt.setText(catList.get(position).getName());
     }
 
     @Override

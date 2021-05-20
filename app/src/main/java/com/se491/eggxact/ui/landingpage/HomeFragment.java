@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.R;
+import com.se491.eggxact.dbutil.CategoriesHelper;
+import com.se491.eggxact.structure.Category;
 import com.se491.eggxact.ui.ratingsact.RatingsActivity;
 import com.se491.eggxact.structure.Recipe;
 
@@ -39,7 +41,7 @@ public class HomeFragment extends Fragment {
     RecyclerView ratedRecyclerView;
     CatAdapter catAdapter;
     RatingsAdapter ratingsAdapter;
-    ArrayList<String> catList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian"));
+    ArrayList<Category> catList = new ArrayList<>();
     //ArrayList<String> ratingsList = new ArrayList<>(Arrays.asList("Thai Turkey Stir-Fry","Smash Burgers","Berry Almond Breakfast Parfait"));
     DatabaseReference databaseReference;
     TextView catSeeAll;
@@ -65,6 +67,7 @@ public class HomeFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
         getRecipesDB();
+        catList = CategoriesHelper.getCategories();
         catSeeAll = fragmentView.findViewById(R.id.catSeeAll);
         recyclerView = fragmentView.findViewById(R.id.catRecycler);
         ratedSeeAll = fragmentView.findViewById(R.id.ratedSeeAll);
