@@ -35,10 +35,13 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
     RecyclerView recyclerView;
     RecipeAdapter recipeAdapter;
     EditText searchByName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adv_search);
+
+
         searchByName = findViewById(R.id.searchNameTxt);
         recyclerView = findViewById(R.id.recycler);
         recipeAdapter = new RecipeAdapter(recipeList,this);
@@ -49,6 +52,13 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
        // new Thread(new RandomRecipeRunnable()).start();
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
+
+        if(getIntent().hasExtra("searchText")){
+            Intent intent = getIntent();
+            String searchText = intent.getExtras().getString("searchText");
+            doSearch(searchText);
+            searchByName.setText("");
+        }
 
         searchByName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
