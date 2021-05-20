@@ -21,15 +21,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.R;
+import com.se491.eggxact.structure.RecipeInfo;
 import com.se491.eggxact.ui.recommendation.RecommendationActivity;
 import com.se491.eggxact.ui.ratingsact.RatingsActivity;
 import com.se491.eggxact.structure.Recipe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class HomeFragment extends Fragment {
@@ -37,6 +42,7 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     private static final ArrayList<Recipe> DB_RECIPE_LIST  = new ArrayList<>();
     private static final ArrayList<Recipe> HIGHEST_RATED_LIST = new ArrayList<>();
+    private static final ArrayList<RecipeInfo> CURRENT_RECOMMENDATION_LIST = new ArrayList<>();
 
     RecyclerView recyclerView;
     RecyclerView ratedRecyclerView;
@@ -47,6 +53,7 @@ public class HomeFragment extends Fragment {
     ArrayList<String> catList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian"));
     //ArrayList<String> ratingsList = new ArrayList<>(Arrays.asList("Thai Turkey Stir-Fry","Smash Burgers","Berry Almond Breakfast Parfait"));
     DatabaseReference databaseReference;
+    DatabaseReference recommendationReference;
     TextView catSeeAll;
     TextView ratedSeeAll;
     TextView recommendationsSeeAll;
@@ -70,7 +77,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
+        recommendationReference = FirebaseDatabase.getInstance().getReference().child("Recommendations");
         getRecipesDB();
+        pullRecommendations();
+
         catSeeAll = fragmentView.findViewById(R.id.catSeeAll);
         recyclerView = fragmentView.findViewById(R.id.catRecycler);
         ratedSeeAll = fragmentView.findViewById(R.id.ratedSeeAll);
@@ -93,9 +103,7 @@ public class HomeFragment extends Fragment {
 
 
         recommendationsRecyclerView = fragmentView.findViewById(R.id.RecommendationsRecycler);
-        Map<String, Recipe> recommendationMap = new HashMap<>();
-        recommendationMap.put("burger", new Recipe("521885", "Pesto & Mozzarella Turkey Burger"));
-        recommendationAdapter = new RecommendationAdapter(recommendationMap);
+        recommendationAdapter = new RecommendationAdapter(CURRENT_RECOMMENDATION_LIST);
         RecyclerView.LayoutManager recRecyclerLayout = new LinearLayoutManager(fragmentView.getContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false);
@@ -167,4 +175,40 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+
+    private void pullRecommendations() {
+        String s = "hi";
+        recommendationReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                CURRENT_RECOMMENDATION_LIST.clear();
+                Iterable<DataSnapshot> iterable = snapshot.getChildren();
+                for(DataSnapshot snap : iterable) {
+                    Map<String, List<RecipeInfo>> value = (HashMap) snap.getValue();
+                    //TODO:update this to pick a random one in the list of recommendations, or keep it as one.
+                    Collection<List<RecipeInfo>> values = value.values();
+                    Iterator<List<RecipeInfo>> iterator = values.iterator();
+
+                    for (Iterator<List<RecipeInfo>> it = iterator; it.hasNext(); ) {
+                        List<RecipeInfo> info = it.next();
+                        CURRENT_RECOMMENDATION_LIST.add(info.get(0));
+                    }
+
+
+
+                }
+                ratingsAdapter.notifyDataSetChanged();
+                Log.d(TAG, "onDataChange get mapping ");
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
 }

@@ -8,18 +8,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.se491.eggxact.R;
-import com.se491.eggxact.structure.Recipe;
+import com.se491.eggxact.structure.RecipeInfo;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class RecommendationAdapter extends RecyclerView.Adapter<RandomViewHolder> {
 
     //map of recommendations by category
-    Map<String, Recipe> recommendationsMap;
+    List<RecipeInfo> recommendations;
 
-    public RecommendationAdapter(Map<String, Recipe> recommendationsMap) {
-        this.recommendationsMap = recommendationsMap;
+    public RecommendationAdapter(List<RecipeInfo> recommendations) {
+        this.recommendations = recommendations;
     }
 
     @NonNull
