@@ -77,7 +77,6 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         });
 
 
-        CategoriesHelper.getCategories();
     }
 
     private void saveCategoriesToDB() {
@@ -96,7 +95,7 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         recipeList.addAll(recipeArrayList);
         recipeAdapter.notifyDataSetChanged();
        // saveDataToDB();
-       // saveCategoriesToDB();
+        // saveCategoriesToDB();
         Log.d(TAG, "showData: "+recipeList.size());
     }
 

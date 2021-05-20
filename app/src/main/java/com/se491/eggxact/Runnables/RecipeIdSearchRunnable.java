@@ -8,8 +8,10 @@ import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.LandingPageActivity;
 import com.se491.eggxact.MainActivity;
 import com.se491.eggxact.R;
+import com.se491.eggxact.structure.Category;
 import com.se491.eggxact.structure.RecipeHolderLookup;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.ui.categoryact.CategoryActivity;
 import com.se491.eggxact.ui.ratingsact.RatingsActAdapter;
 import com.se491.eggxact.ui.ratingsact.RatingsActivity;
 
@@ -34,6 +36,7 @@ public class RecipeIdSearchRunnable implements Runnable {
     private AdvSearchActivity advSearchActivity =null;
     private LandingPageActivity landingPageActivity;
     private RatingsActivity ratingsActivity;
+    private CategoryActivity categoryActivity;
 
     public RecipeIdSearchRunnable(String queryID, LandingPageActivity landingPageActivity) {
         this.queryID = queryID;
@@ -62,9 +65,18 @@ public class RecipeIdSearchRunnable implements Runnable {
         API_KEY = this.ratingsActivity.getString(R.string.API_KEY1);
     }
 
+
+
     public RecipeIdSearchRunnable(String queryID) {
         this.queryID = queryID;
     }
+
+    public RecipeIdSearchRunnable(String recipeId, CategoryActivity categoryActivity) {
+        this.queryID = recipeId;
+        this.categoryActivity = categoryActivity;
+        API_KEY = this.categoryActivity.getString(R.string.API_KEY1);
+    }
+
 
     @Override
     public void run() {
@@ -165,6 +177,15 @@ public class RecipeIdSearchRunnable implements Runnable {
                     @Override
                     public void run() {
                         ratingsActivity.passRecipeObject(recipeInfo);
+                    }
+                });
+            }
+
+            if(categoryActivity != null){
+                categoryActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        categoryActivity.passRecipeObject(recipeInfo);
                     }
                 });
             }

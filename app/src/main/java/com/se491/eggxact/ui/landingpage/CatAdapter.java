@@ -16,6 +16,12 @@ public class CatAdapter extends RecyclerView.Adapter<CatViewHolder> {
 
 
     ArrayList<Category> catList = new ArrayList<>();
+    CategoriesFragment categoriesFragment;
+
+    public CatAdapter(ArrayList<Category> catList, CategoriesFragment categoriesFragment) {
+        this.catList = catList;
+        this.categoriesFragment = categoriesFragment;
+    }
 
     public CatAdapter(ArrayList<Category> catList) {
         this.catList = catList;
@@ -25,6 +31,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatViewHolder> {
     @Override
     public CatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.categories_item_layout,parent,false);
+        itemView.setOnClickListener(categoriesFragment);
         return  new CatViewHolder(itemView);
     }
 

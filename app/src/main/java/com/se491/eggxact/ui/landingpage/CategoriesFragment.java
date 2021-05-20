@@ -1,24 +1,30 @@
 package com.se491.eggxact.ui.landingpage;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.se491.eggxact.R;
 import com.se491.eggxact.dbutil.CategoriesHelper;
 import com.se491.eggxact.structure.Category;
+import com.se491.eggxact.structure.Recipe;
+import com.se491.eggxact.ui.categoryact.CategoryActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class CategoriesFragment extends Fragment {
+public class CategoriesFragment extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = "CategoriesFragment";
     RecyclerView recyclerView;
     RecyclerView recyclerViewTwo;
     CatAdapter catAdapterR1;
@@ -50,8 +56,8 @@ public class CategoriesFragment extends Fragment {
         catList = CategoriesHelper.getCategories();
         recyclerView = fragmentView.findViewById(R.id.catFragRecycler);
         recyclerViewTwo = fragmentView.findViewById(R.id.catFragRecycler2);
-        catAdapterR1 = new CatAdapter(catList);
-        catAdapterR2 = new CatAdapter(catList);
+        catAdapterR1 = new CatAdapter(catList,this);
+        catAdapterR2 = new CatAdapter(catList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
         recyclerView.setAdapter(catAdapterR1);
         recyclerViewTwo.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
@@ -59,5 +65,16 @@ public class CategoriesFragment extends Fragment {
         catAdapterR1.notifyDataSetChanged();
         catAdapterR2.notifyDataSetChanged();
         return fragmentView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int pos = recyclerView.getChildAdapterPosition(v);
+        Category c = catList.get(pos);
+        Log.d(TAG, "onClick: "+c.toString());
+        Toast.makeText(getContext(), c.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), CategoryActivity.class);
+        intent.putExtra(Category.class.getName(),c);
+        startActivity(intent);
     }
 }
