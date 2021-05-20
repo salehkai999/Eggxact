@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Category implements Serializable {
     private String name;
+    private String img;
     private ArrayList<Recipe> recipes = new ArrayList<>();
 
     public Category() {
@@ -31,10 +32,19 @@ public class Category implements Serializable {
         this.recipes.addAll(recipes);
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     @Override
     public String toString() {
         return "Category{" +
                 "name='" + name + '\'' +
+                ", img='" + img + '\'' +
                 ", recipes=" + recipes +
                 '}';
     }

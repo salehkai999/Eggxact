@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.se491.eggxact.R;
 import com.se491.eggxact.dbutil.CategoriesHelper;
+import com.se491.eggxact.dbutil.CuisinesHelper;
 import com.se491.eggxact.structure.Category;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.ui.categoryact.CategoryActivity;
@@ -22,14 +23,15 @@ import com.se491.eggxact.ui.categoryact.CategoryActivity;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class CategoriesFragment extends Fragment implements View.OnClickListener {
+public class CategoriesFragment extends Fragment implements View.OnClickListener,CuisinesAdapter.CuisinesOnClick {
 
     private static final String TAG = "CategoriesFragment";
     RecyclerView recyclerView;
     RecyclerView recyclerViewTwo;
     CatAdapter catAdapterR1;
-    CatAdapter catAdapterR2;
+    CuisinesAdapter catAdapterR2;
     ArrayList<Category> catList = new ArrayList<>();
+    ArrayList<Category> catList2 = new ArrayList<>();
 
 
     public CategoriesFragment() {
@@ -54,10 +56,12 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_categories, container, false);
         catList = CategoriesHelper.getCategories();
+        catList2 = CuisinesHelper.getCategories();
         recyclerView = fragmentView.findViewById(R.id.catFragRecycler);
         recyclerViewTwo = fragmentView.findViewById(R.id.catFragRecycler2);
         catAdapterR1 = new CatAdapter(catList,this);
-        catAdapterR2 = new CatAdapter(catList,this);
+        catAdapterR2 = new CuisinesAdapter(catList2,this);
+        catAdapterR2.setCuisinesOnClick(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
         recyclerView.setAdapter(catAdapterR1);
         recyclerViewTwo.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
@@ -75,6 +79,14 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
         Toast.makeText(getContext(), c.getName(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), CategoryActivity.class);
         intent.putExtra(Category.class.getName(),c);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCuisineClick(Category category) {
+        Toast.makeText(getContext(), category.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), CategoryActivity.class);
+        intent.putExtra(Category.class.getName(),category);
         startActivity(intent);
     }
 }

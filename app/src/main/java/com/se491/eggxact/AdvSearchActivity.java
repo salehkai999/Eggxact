@@ -54,7 +54,7 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
 
        // new Thread(new RandomRecipeRunnable()).start();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("categories");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("cuisines");
 
         searchByName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -83,6 +83,7 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         Category category = new Category();
         category.setName(categoryStr);
         category.addAllRecipe(recipeList);
+        category.setImg("https://images-na.ssl-images-amazon.com/images/I/31unEqr67gL._AC_SY355_.jpg");
         databaseReference.push().setValue(category);
     }
 
@@ -94,8 +95,8 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         recipeList.clear();
         recipeList.addAll(recipeArrayList);
         recipeAdapter.notifyDataSetChanged();
-       // saveDataToDB();
-        // saveCategoriesToDB();
+        //saveDataToDB();
+        saveCategoriesToDB();
         Log.d(TAG, "showData: "+recipeList.size());
     }
 

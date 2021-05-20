@@ -12,8 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.structure.IngredientsAdapter;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeAdapter;
@@ -26,83 +28,105 @@ import java.util.List;
 
 public class RecipeActivity extends AppCompatActivity {
 
-    TextView titleView;
-    TextView prepTimeView;
-    TextView cookTimeView;
-    TextView totalTimeView;
-    TextView instructionsView;
-    ImageView recipeImg;
-    RecyclerView ingredientsView;
+    private static final String TAG = "RecipeActivity";
+    private TextView titleView;
+    private TextView prepTimeView;
+    private TextView cookTimeView;
+    private TextView totalTimeView;
+    private TextView instructionsView;
+    private TextView ingredientsTxt;
+    private TextView instructionsTxt;
+    private ImageView recipeImg;
+    private RecyclerView ingredientsView;
+    private RecipeInfo recipeInfo;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_u_i);
 
-        RecipeInfo recipeInfo = (RecipeInfo) getIntent().getSerializableExtra("RecipeInfo");
-        Log.d("RecipeActivity", "passedRecipeObject: "+recipeInfo.toString());
-
         titleView = findViewById(R.id.Title);
         prepTimeView = findViewById(R.id.prepTime);
         cookTimeView = findViewById(R.id.cookTime);
         totalTimeView = findViewById(R.id.totalTime);
         instructionsView = findViewById(R.id.instructions);
+        instructionsTxt = findViewById(R.id.instructionTitle);
+        ingredientsTxt = findViewById(R.id.Ingredients);
         recipeImg = findViewById(R.id.recipeImg);
         ingredientsView = findViewById(R.id.ingredientsList);
+        progressBar = findViewById(R.id.progressBarRecipe);
+
+        if(getIntent().hasExtra("RecipeInfo")) {
+            recipeInfo = (RecipeInfo) getIntent().getSerializableExtra("RecipeInfo");
+            showData();
+            Log.d("RecipeActivity", "passedRecipeObject: " + recipeInfo.toString());
+        }
+        else {
+            progressBar.setVisibility(View.VISIBLE);
+            hideViews();
+            Log.d(TAG, "onCreate: FOUND");
+            downloadDataThenShow();
+        }
 
 
+    }
 
+    private void hideViews() {
+        titleView.setVisibility(View.INVISIBLE);
+        prepTimeView.setVisibility(View.INVISIBLE);
+        cookTimeView.setVisibility(View.INVISIBLE);
+        totalTimeView.setVisibility(View.INVISIBLE);
+        instructionsView.setVisibility(View.INVISIBLE);
+        recipeImg.setVisibility(View.INVISIBLE);
+        ingredientsView.setVisibility(View.INVISIBLE);
+        instructionsTxt.setVisibility(View.INVISIBLE);
+        ingredientsTxt.setVisibility(View.INVISIBLE);
+    }
+
+    private void downloadDataThenShow() {
+        Recipe recipe = (Recipe) getIntent().getSerializableExtra(Recipe.class.getName());
+        Log.d(TAG, "downloadDataThenShow: "+recipe.getRecipeId());
+        new Thread(new RecipeIdSearchRunnable(recipe.getRecipeId(),this)).start();
+    }
+
+
+    public void passRecipeObject(RecipeInfo recipeInfo) {
+        this.recipeInfo = recipeInfo;
+        showData();
+    }
+
+    private void showData() {
+        Log.d(TAG, "showData: ");
+        showViews();
         titleView.setText(recipeInfo.getName());
         prepTimeView.setText("Prep Time: " + recipeInfo.getPrepTime() + " mins");
         cookTimeView.setText("Cook Time: " + recipeInfo.getCookingTime() + " mins");
-        totalTimeView.setText("Total Time: "+ recipeInfo.getReadyMinutes() + " mins");
+        totalTimeView.setText("Total Time: " + recipeInfo.getReadyMinutes() + " mins");
 
         IngredientsAdapter ingredientsAdapter = new IngredientsAdapter(this, recipeInfo.getIngredients());
 
         ingredientsView.setAdapter(ingredientsAdapter);
         ingredientsView.setLayoutManager(new LinearLayoutManager(this));
 
-        instructionsView.setText(recipeInfo.getInstructions().replaceAll("\\<.*?>",""));
+        instructionsView.setText(recipeInfo.getInstructions().replaceAll("\\<.*?>", ""));
         instructionsView.setMovementMethod(new ScrollingMovementMethod());
 
         Picasso.get().load(recipeInfo.getImgURL()).error(R.drawable.brokenimage)
                 .placeholder(R.drawable.placeholder).into(recipeImg);
 
-//        List<String> ingred = new ArrayList<String>();
-//        ingred.add("Lasagna Sheet");
-//        ingred.add("Tomatoe Sauce");
-//        ingred.add("Ground Beef");
-//        ingred.add("Shredded Cheese");
-//        ingred.add("Salt");
-//        ingred.add("Black Pepper");
-//        ingred.add("Cottage Cheese");
-//
-//        String[] test = {"Lasagna","Tomatoe","Beef","Shredded Cheese"};
-//
-//
-
-
-
-
-
-//        btn_getRecipe.setOnClickListener(new View.OnClickListener() {
-//
-//
-//            @Override
-//            public void onClick(View v) {
-//
-//                titleView.setText(recipeInfo.getName());
-//                authorView.setText(recipe.author);
-//                summaryView.setText(recipe.summary);
-////                ingredientsView.setAdapter(adapter);
-//
-//
-//
-//
-//            }
-//        }) ;
-
+        progressBar.setVisibility(View.GONE);
     }
 
-
+    private void showViews() {
+        titleView.setVisibility(View.VISIBLE);
+        prepTimeView.setVisibility(View.VISIBLE);
+        cookTimeView.setVisibility(View.VISIBLE);
+        totalTimeView.setVisibility(View.VISIBLE);
+        instructionsView.setVisibility(View.VISIBLE);
+        recipeImg.setVisibility(View.VISIBLE);
+        ingredientsView.setVisibility(View.VISIBLE);
+        instructionsTxt.setVisibility(View.VISIBLE);
+        ingredientsTxt.setVisibility(View.VISIBLE);
+    }
 }

@@ -3,6 +3,7 @@ package com.se491.eggxact.ui.landingpage;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +20,7 @@ public class RatingsAdapter extends RecyclerView.Adapter<RatingsViewHolder> {
     public RatingsAdapter(ArrayList<Recipe> ratingsList) {
         this.ratingsList = ratingsList;
     }
-
+    private onItemClickListener onItemClickListener;
 
     @NonNull
     @Override
@@ -33,10 +34,27 @@ public class RatingsAdapter extends RecyclerView.Adapter<RatingsViewHolder> {
         holder.title.setText(ratingsList.get(position).getRecipeName());
         holder.likes.setText(String.valueOf(ratingsList.get(position).getLikes()));
         holder.disLikes.setText(String.valueOf(ratingsList.get(position).getDislikes()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onItemClickListener != null){
+                    onItemClickListener.onItemClick(ratingsList.get(position));
+                }
+            }
+        });
+    }
+
+    public void setOnItemClickListener(onItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
     public int getItemCount() {
         return ratingsList.size();
+    }
+
+    public interface onItemClickListener {
+        void onItemClick(Recipe recipe);
     }
 }

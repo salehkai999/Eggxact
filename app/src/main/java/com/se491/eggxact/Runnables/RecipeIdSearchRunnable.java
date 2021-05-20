@@ -8,6 +8,7 @@ import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.LandingPageActivity;
 import com.se491.eggxact.MainActivity;
 import com.se491.eggxact.R;
+import com.se491.eggxact.RecipeActivity;
 import com.se491.eggxact.structure.Category;
 import com.se491.eggxact.structure.RecipeHolderLookup;
 import com.se491.eggxact.structure.RecipeInfo;
@@ -34,14 +35,11 @@ public class RecipeIdSearchRunnable implements Runnable {
     private static final String URL_PART2 = "/information";
     private String queryID;
     private AdvSearchActivity advSearchActivity =null;
-    private LandingPageActivity landingPageActivity;
     private RatingsActivity ratingsActivity;
     private CategoryActivity categoryActivity;
+    private RecipeActivity recipeActivity;
 
-    public RecipeIdSearchRunnable(String queryID, LandingPageActivity landingPageActivity) {
-        this.queryID = queryID;
-        this.landingPageActivity = landingPageActivity;
-    }
+
 
     private RecipeHolderLookup lookup;
 
@@ -75,6 +73,12 @@ public class RecipeIdSearchRunnable implements Runnable {
         this.queryID = recipeId;
         this.categoryActivity = categoryActivity;
         API_KEY = this.categoryActivity.getString(R.string.API_KEY1);
+    }
+
+    public RecipeIdSearchRunnable(String recipeId, RecipeActivity recipeActivity) {
+        this.queryID = recipeId;
+        this.recipeActivity = recipeActivity;
+        API_KEY = this.recipeActivity.getString(R.string.API_KEY1);
     }
 
 
@@ -172,7 +176,7 @@ public class RecipeIdSearchRunnable implements Runnable {
                 });
             }
 
-            if(ratingsActivity != null){
+            else if(ratingsActivity != null){
                 ratingsActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -181,11 +185,20 @@ public class RecipeIdSearchRunnable implements Runnable {
                 });
             }
 
-            if(categoryActivity != null){
+            else if(categoryActivity != null){
                 categoryActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         categoryActivity.passRecipeObject(recipeInfo);
+                    }
+                });
+            }
+
+            else {
+                recipeActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recipeActivity.passRecipeObject(recipeInfo);
                     }
                 });
             }
