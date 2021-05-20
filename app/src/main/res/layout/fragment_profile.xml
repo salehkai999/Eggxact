@@ -1,14 +1,379 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.landingpage.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profileLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/user_image"
+            android:layout_width="255dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/blankavatar" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="User Name"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_image" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_name" />
+
+        <TextView
+            android:id="@+id/review_text"
+            android:layout_width="122dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="92dp"
+            android:layout_marginTop="28dp"
+            android:text="Reviews"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/favorite_text" />
+
+        <TextView
+            android:id="@+id/favorite_text"
+            android:layout_width="122dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="92dp"
+            android:layout_marginTop="92dp"
+            android:text="Favorites"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email" />
+
+        <TextView
+            android:id="@+id/favorite_num"
+            android:layout_width="33dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="88dp"
+            android:text="17"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@+id/favorites_img"
+            app:layout_constraintHorizontal_bias="0.772"
+            app:layout_constraintStart_toEndOf="@+id/favorite_text"
+            app:layout_constraintTop_toBottomOf="@+id/email" />
+
+        <ImageView
+            android:id="@+id/favorites_img"
+            android:layout_width="52dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="68dp"
+            android:src="@drawable/baseline_favorite_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email" />
+
+        <Button
+            android:id="@+id/edit_profile"
+            android:layout_width="301dp"
+            android:layout_height="49dp"
+            android:layout_marginBottom="16dp"
+            android:hint="Edit Profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/review_num"
+            android:layout_width="33dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="40dp"
+            android:text="17"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@+id/review_img"
+            app:layout_constraintHorizontal_bias="0.618"
+            app:layout_constraintStart_toEndOf="@+id/review_text"
+            app:layout_constraintTop_toBottomOf="@+id/favorites_img" />
+
+        <ImageView
+            android:id="@+id/review_img"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="68dp"
+            android:src="@drawable/review_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/favorites_img" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/editScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/editProfileLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/npassInput"
+                android:layout_width="345dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/npassTitle" />
+
+            <TextView
+                android:id="@+id/editAccountTitle"
+                android:layout_width="270dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="16dp"
+                android:text="Edit Account"
+                android:textAlignment="center"
+                android:textSize="36sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fnameTitle"
+                android:layout_width="247dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="28dp"
+                android:text="First Name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editAccountTitle" />
+
+            <TextView
+                android:id="@+id/npassTitle"
+                android:layout_width="247dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:text="New Password"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/usrnameInput" />
+
+            <TextView
+                android:id="@+id/usrnameTitle"
+                android:layout_width="247dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:text="User Name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lnameInput" />
+
+            <TextView
+                android:id="@+id/lnameTitle"
+                android:layout_width="247dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:text="Last Name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fnameInput" />
+
+            <EditText
+                android:id="@+id/lnameInput"
+                android:layout_width="345dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lnameTitle" />
+
+            <EditText
+                android:id="@+id/usrnameInput"
+                android:layout_width="345dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/usrnameTitle" />
+
+            <Button
+                android:id="@+id/save_editProfile"
+                android:layout_width="242dp"
+                android:layout_height="45dp"
+                android:layout_marginBottom="96dp"
+                android:text="Save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/npassInput" />
+
+            <EditText
+                android:id="@+id/fnameInput"
+                android:layout_width="344dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fnameTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".ui.landingpage.ProfileFragment"-->
+<!--    android:fillViewport="true">-->
+<!--    -->
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/editProfileLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:layout_editor_absoluteX="86dp"-->
+<!--        tools:layout_editor_absoluteY="7dp">-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/npassInput"-->
+<!--            android:layout_width="345dp"-->
+<!--            android:layout_height="51dp"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="textEmailAddress"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/npassTitle" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/editAccountTitle"-->
+<!--            android:layout_width="270dp"-->
+<!--            android:layout_height="49dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="Edit Account"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textSize="36sp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.496"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/fnameTitle"-->
+<!--            android:layout_width="247dp"-->
+<!--            android:layout_height="31dp"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="28dp"-->
+<!--            android:text="First Name"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/editAccountTitle" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/npassTitle"-->
+<!--            android:layout_width="247dp"-->
+<!--            android:layout_height="31dp"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="New Password"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/usrnameInput" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/usrnameTitle"-->
+<!--            android:layout_width="247dp"-->
+<!--            android:layout_height="31dp"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="User Name"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/lnameInput" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/lnameTitle"-->
+<!--            android:layout_width="247dp"-->
+<!--            android:layout_height="31dp"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="Last Name"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/fnameInput" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/lnameInput"-->
+<!--            android:layout_width="345dp"-->
+<!--            android:layout_height="51dp"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="textEmailAddress"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/lnameTitle" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/usrnameInput"-->
+<!--            android:layout_width="345dp"-->
+<!--            android:layout_height="51dp"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="textEmailAddress"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/usrnameTitle" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/save_editProfile"-->
+<!--            android:layout_width="242dp"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:layout_marginBottom="96dp"-->
+<!--            android:text="Save"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.497"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/npassInput" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/fnameInput"-->
+<!--            android:layout_width="344dp"-->
+<!--            android:layout_height="44dp"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="textPersonName"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/fnameTitle" />-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+<!--</ScrollView>-->
