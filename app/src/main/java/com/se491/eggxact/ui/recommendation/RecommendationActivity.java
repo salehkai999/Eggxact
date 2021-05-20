@@ -1,9 +1,11 @@
 package com.se491.eggxact.ui.recommendation;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.se491.eggxact.R;
@@ -17,14 +19,13 @@ public class RecommendationActivity extends AppCompatActivity implements View.On
 
     private static final String TAG = "RecommendationActivity";
     RecyclerView recyclerView;
-    RatingsActAdapter recommendationAdapter;
-    ArrayList<Recipe> recipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recommendation_item_layout);
-        //recyclerView = findViewById(R.id.ratingsRecycler);
+        setContentView(R.layout.activity_recommendation);
+        recyclerView = findViewById(R.id.recRecycler);
+
     }
 
     @Override

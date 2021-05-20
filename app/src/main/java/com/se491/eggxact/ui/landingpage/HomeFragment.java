@@ -28,6 +28,8 @@ import com.se491.eggxact.structure.Recipe;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HomeFragment extends Fragment {
@@ -41,6 +43,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recommendationsRecyclerView;
     CatAdapter catAdapter;
     RatingsAdapter ratingsAdapter;
+    RecommendationAdapter recommendationAdapter;
     ArrayList<String> catList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian"));
     //ArrayList<String> ratingsList = new ArrayList<>(Arrays.asList("Thai Turkey Stir-Fry","Smash Burgers","Berry Almond Breakfast Parfait"));
     DatabaseReference databaseReference;
@@ -87,6 +90,18 @@ public class HomeFragment extends Fragment {
                 false);
         ratedRecyclerView.setLayoutManager(ratingsLayout);
         ratedRecyclerView.setAdapter(ratingsAdapter);
+
+
+        recommendationsRecyclerView = fragmentView.findViewById(R.id.RecommendationsRecycler);
+        Map<String, Recipe> recommendationMap = new HashMap<>();
+        recommendationMap.put("burger", new Recipe("521885", "Pesto & Mozzarella Turkey Burger"));
+        recommendationAdapter = new RecommendationAdapter(recommendationMap);
+        RecyclerView.LayoutManager recRecyclerLayout = new LinearLayoutManager(fragmentView.getContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false);
+        recommendationsRecyclerView.setLayoutManager(recRecyclerLayout);
+        recommendationsRecyclerView.setAdapter(recommendationAdapter);
+
 
         catSeeAll.setOnClickListener(new View.OnClickListener() {
             @Override
