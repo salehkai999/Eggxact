@@ -13,7 +13,9 @@
         android:theme="@style/Theme.Eggxact">
         <activity android:name=".ui.categoryact.CategoryActivity"></activity>
         <activity android:name=".ui.ratingsact.RatingsActivity"></activity>
-        <activity android:name=".AdvSearchActivity"></activity>
+        <activity android:name=".AdvSearchActivity">
+
+        </activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".LoginActivity" />

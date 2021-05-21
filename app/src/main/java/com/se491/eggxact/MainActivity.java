@@ -26,6 +26,7 @@ import com.se491.eggxact.dbutil.CategoriesHelper;
 import com.se491.eggxact.dbutil.CuisinesHelper;
 import com.se491.eggxact.dbutil.RandomGenerator;
 import com.se491.eggxact.structure.*;
+import com.se491.eggxact.ui.landingpage.RandomAdapter;
 
 public class MainActivity extends AppCompatActivity {
 

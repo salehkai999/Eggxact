@@ -96,7 +96,7 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         recipeList.addAll(recipeArrayList);
         recipeAdapter.notifyDataSetChanged();
         //saveDataToDB();
-        saveCategoriesToDB();
+        //saveCategoriesToDB();
         Log.d(TAG, "showData: "+recipeList.size());
     }
 

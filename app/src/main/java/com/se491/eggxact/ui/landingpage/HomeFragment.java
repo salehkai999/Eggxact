@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 
-public class HomeFragment extends Fragment implements  View.OnClickListener, RatingsAdapter.onItemClickListener{
+public class HomeFragment extends Fragment implements  View.OnClickListener, RatingsAdapter.onItemClickListener {
 
     private static final String TAG = "HomeFragment";
     private static final ArrayList<Recipe> DB_RECIPE_LIST  = new ArrayList<>();
