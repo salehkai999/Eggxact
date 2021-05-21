@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +22,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.R;
+import com.se491.eggxact.RecipeActivity;
+import com.se491.eggxact.dbutil.CategoriesHelper;
+import com.se491.eggxact.structure.Category;
+import com.se491.eggxact.ui.categoryact.CategoryActivity;
 import com.se491.eggxact.ui.ratingsact.RatingsActivity;
 import com.se491.eggxact.structure.Recipe;
 
@@ -29,7 +34,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements  View.OnClickListener, RatingsAdapter.onItemClickListener {
 
     private static final String TAG = "HomeFragment";
     private static final ArrayList<Recipe> DB_RECIPE_LIST  = new ArrayList<>();
@@ -39,7 +44,7 @@ public class HomeFragment extends Fragment {
     RecyclerView ratedRecyclerView;
     CatAdapter catAdapter;
     RatingsAdapter ratingsAdapter;
-    ArrayList<String> catList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian"));
+    ArrayList<Category> catList = new ArrayList<>();
     //ArrayList<String> ratingsList = new ArrayList<>(Arrays.asList("Thai Turkey Stir-Fry","Smash Burgers","Berry Almond Breakfast Parfait"));
     DatabaseReference databaseReference;
     TextView catSeeAll;
@@ -65,10 +70,11 @@ public class HomeFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
         getRecipesDB();
+        catList = CategoriesHelper.getCategories();
         catSeeAll = fragmentView.findViewById(R.id.catSeeAll);
         recyclerView = fragmentView.findViewById(R.id.catRecycler);
         ratedSeeAll = fragmentView.findViewById(R.id.ratedSeeAll);
-        catAdapter = new CatAdapter(catList);
+        catAdapter = new CatAdapter(catList,this);
         RecyclerView.LayoutManager horizontalLayout
                 = new LinearLayoutManager(fragmentView.getContext(),
                 LinearLayoutManager.HORIZONTAL,
@@ -78,6 +84,7 @@ public class HomeFragment extends Fragment {
 
         ratedRecyclerView = fragmentView.findViewById(R.id.ratingsRecycler);
         ratingsAdapter = new RatingsAdapter(HIGHEST_RATED_LIST);
+        ratingsAdapter.setOnItemClickListener(this);
         RecyclerView.LayoutManager ratingsLayout = new LinearLayoutManager(fragmentView.getContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false);
@@ -137,5 +144,24 @@ public class HomeFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        int pos = recyclerView.getChildAdapterPosition(v);
+        Category c = catList.get(pos);
+        Log.d(TAG, "onClick: "+c.toString());
+        Toast.makeText(getContext(), c.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), CategoryActivity.class);
+        intent.putExtra(Category.class.getName(),c);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onItemClick(Recipe recipe) {
+        Toast.makeText(getContext(), recipe.getRecipeName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(), RecipeActivity.class);
+        intent.putExtra(Recipe.class.getName(),recipe);
+        startActivity(intent);
     }
 }

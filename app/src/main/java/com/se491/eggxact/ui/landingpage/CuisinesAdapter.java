@@ -9,42 +9,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.se491.eggxact.R;
 import com.se491.eggxact.structure.Category;
-import com.se491.eggxact.structure.Recipe;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CatAdapter extends RecyclerView.Adapter<CatViewHolder> {
-
+public class CuisinesAdapter  extends RecyclerView.Adapter<CatViewHolder> {
 
     ArrayList<Category> catList = new ArrayList<>();
     CategoriesFragment categoriesFragment;
-    HomeFragment homeFragment;
+    CuisinesOnClick cuisinesOnClick;
 
-    public CatAdapter(ArrayList<Category> catList, CategoriesFragment categoriesFragment) {
+    public CuisinesAdapter(ArrayList<Category> catList, CategoriesFragment categoriesFragment) {
         this.catList = catList;
         this.categoriesFragment = categoriesFragment;
     }
 
-    public CatAdapter(ArrayList<Category> catList, HomeFragment homeFragment){
-        this.catList = catList;
-        this.homeFragment = homeFragment;
-    }
-
-
-    public CatAdapter(ArrayList<Category> catList) {
-        this.catList = catList;
+    public void setCuisinesOnClick(CuisinesOnClick cuisinesOnClick) {
+        this.cuisinesOnClick = cuisinesOnClick;
     }
 
     @NonNull
     @Override
     public CatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.categories_item_layout,parent,false);
-        if(categoriesFragment != null)
-            itemView.setOnClickListener(categoriesFragment);
-        else if(homeFragment != null)
-            itemView.setOnClickListener(homeFragment);
         return  new CatViewHolder(itemView);
     }
 
@@ -64,7 +52,14 @@ public class CatAdapter extends RecyclerView.Adapter<CatViewHolder> {
                 holder.image.setVisibility(View.INVISIBLE);
             }
         });
-
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cuisinesOnClick != null){
+                    cuisinesOnClick.onCuisineClick(catList.get(position));
+                }
+            }
+        });
     }
 
     @Override
@@ -72,8 +67,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatViewHolder> {
         return catList.size();
     }
 
-
-
-
+    public interface CuisinesOnClick{
+        public void onCuisineClick(Category category);
+    }
 }
-

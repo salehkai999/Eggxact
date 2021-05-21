@@ -21,6 +21,7 @@ public class RecipeInfo implements Serializable {
     private String instructions;
     private String imgURL;
     private final ArrayList<String> ingredients = new ArrayList<>();
+    private final ArrayList<String> cuisines = new ArrayList<>();
     private static final String TAG = "RecipeInfo";
 
     public RecipeInfo() {
@@ -91,17 +92,26 @@ public class RecipeInfo implements Serializable {
         return ingredients;
     }
 
+    public void addCuisine(String cuisine){
+        cuisines.add(cuisine);
+    }
+
+    public ArrayList<String> getCuisines() {
+        return cuisines;
+    }
+
     @Override
     public String toString() {
         return "RecipeInfo{" +
                 "name='" + name + '\'' +
-                ",\n prepTime=" + prepTime +
-                ",\n cookingTime=" + cookingTime +
-                ",\n readyMinutes=" + readyMinutes +
-                ",\n healthScore=" + healthScore +
-                ",\n instructions='" + instructions + '\'' +
-                ",\n imgURL='" + imgURL + '\'' +
-                ",\n ingredients=" + ingredients.toString() +
+                ", prepTime=" + prepTime +
+                ", cookingTime=" + cookingTime +
+                ", readyMinutes=" + readyMinutes +
+                ", healthScore=" + healthScore +
+                ", instructions='" + instructions + '\'' +
+                ", imgURL='" + imgURL + '\'' +
+                ", ingredients=" + ingredients +
+                ", cuisines=" + cuisines +
                 '}';
     }
 }
