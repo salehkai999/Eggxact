@@ -133,7 +133,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/npassInput"
+                android:id="@+id/passInput"
                 android:layout_width="345dp"
                 android:layout_height="51dp"
                 android:layout_marginStart="32dp"
@@ -141,7 +141,7 @@
                 android:ems="10"
                 android:inputType="textEmailAddress"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/npassTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/passTitle" />
 
             <TextView
                 android:id="@+id/editAccountTitle"
@@ -157,47 +157,47 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/fnameTitle"
+                android:id="@+id/fullNameTitle"
                 android:layout_width="247dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="28dp"
-                android:text="First Name"
+                android:text="Full Name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editAccountTitle" />
 
             <TextView
-                android:id="@+id/npassTitle"
+                android:id="@+id/passTitle"
                 android:layout_width="247dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:text="New Password"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/usrnameInput" />
+                app:layout_constraintTop_toBottomOf="@+id/emailInput" />
 
             <TextView
-                android:id="@+id/usrnameTitle"
+                android:id="@+id/emailTitle"
                 android:layout_width="247dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:text="User Name"
+                android:text="Email"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lnameInput" />
+                app:layout_constraintTop_toBottomOf="@+id/phoneInput" />
 
             <TextView
-                android:id="@+id/lnameTitle"
+                android:id="@+id/phoneTitle"
                 android:layout_width="247dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:text="Last Name"
+                android:text="Phone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fnameInput" />
 
             <EditText
-                android:id="@+id/lnameInput"
+                android:id="@+id/phoneInput"
                 android:layout_width="345dp"
                 android:layout_height="51dp"
                 android:layout_marginStart="32dp"
@@ -205,10 +205,10 @@
                 android:ems="10"
                 android:inputType="textEmailAddress"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lnameTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/phoneTitle" />
 
             <EditText
-                android:id="@+id/usrnameInput"
+                android:id="@+id/emailInput"
                 android:layout_width="345dp"
                 android:layout_height="51dp"
                 android:layout_marginStart="32dp"
@@ -216,19 +216,19 @@
                 android:ems="10"
                 android:inputType="textEmailAddress"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/usrnameTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/emailTitle" />
 
             <Button
                 android:id="@+id/save_editProfile"
-                android:layout_width="242dp"
-                android:layout_height="45dp"
+                android:layout_width="297dp"
+                android:layout_height="47dp"
                 android:layout_marginBottom="96dp"
                 android:text="Save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/npassInput" />
+                app:layout_constraintTop_toBottomOf="@+id/passInput" />
 
             <EditText
                 android:id="@+id/fnameInput"
@@ -239,7 +239,7 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fnameTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/fullNameTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

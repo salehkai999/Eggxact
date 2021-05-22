@@ -9,9 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.R;
 import com.se491.eggxact.RecipeActivity;
 import com.se491.eggxact.dbutil.CategoriesHelper;
@@ -49,6 +53,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
     DatabaseReference databaseReference;
     TextView catSeeAll;
     TextView ratedSeeAll;
+    EditText searchText;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -110,6 +115,22 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
                 Intent intent = new Intent(getActivity(), RatingsActivity.class);
                 intent.putExtra("ratings",DB_RECIPE_LIST);
                 startActivity(intent);
+            }
+        });
+
+        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((actionId == EditorInfo.IME_ACTION_GO)) {
+                    if (searchText.getText().toString().trim().isEmpty()) {
+                        searchText.setError("Can't be empty!!");
+                    } else {
+                        Intent i = new Intent(HomeFragment.this.getActivity(), AdvSearchActivity.class);
+                        i.putExtra("searchText", searchText.getText().toString().trim());
+                        startActivity(i);
+                    }
+                }
+                return false;
             }
         });
 
