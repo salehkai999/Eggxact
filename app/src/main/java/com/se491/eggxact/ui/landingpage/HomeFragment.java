@@ -95,7 +95,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
                 false);
         ratedRecyclerView.setLayoutManager(ratingsLayout);
         ratedRecyclerView.setAdapter(ratingsAdapter);
-
+        searchText = fragmentView.findViewById(R.id.search_recipe);
         catSeeAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +117,24 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
                 startActivity(intent);
             }
         });
+
+        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((actionId == EditorInfo.IME_ACTION_GO)) {
+                    if (searchText.getText().toString().trim().isEmpty()) {
+                        searchText.setError("Can't be empty!!");
+                    } else {
+                        Intent i = new Intent(HomeFragment.this.getActivity(), AdvSearchActivity.class);
+                        i.putExtra("searchText", searchText.getText().toString().trim());
+                        startActivity(i);
+                    }
+                }
+                return false;
+            }
+        });
+
+        searchText = fragmentView.findViewById(R.id.search_recipe);
 
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
