@@ -16,6 +16,7 @@ import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.R;
 import com.se491.eggxact.RecipeActivity;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
+import com.se491.eggxact.dbutil.CategoriesHelper;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeInfo;
 import com.se491.eggxact.ui.landingpage.CatAdapter;
@@ -34,7 +35,6 @@ public class RatingsActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ratings);
         recyclerView = findViewById(R.id.ratingsRecycler);
-
         if(getIntent().hasExtra("ratings")) {
             recipes = (ArrayList<Recipe>) getIntent().getSerializableExtra("ratings");
             ratingsAdapter = new RatingsActAdapter(this,recipes);

@@ -1,5 +1,6 @@
 package com.se491.eggxact;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +17,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.se491.eggxact.Runnables.RandomRecipeRunnable;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.Runnables.RecipeSearchRunnable;
+import com.se491.eggxact.dbutil.CategoriesHelper;
+import com.se491.eggxact.structure.Category;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeAdapter;
 import com.se491.eggxact.structure.RecipeInfo;
@@ -35,7 +40,7 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
     RecyclerView recyclerView;
     RecipeAdapter recipeAdapter;
     EditText searchByName;
-
+    String categoryStr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +56,7 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
 
        // new Thread(new RandomRecipeRunnable()).start();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("cuisines");
 
         if(getIntent().hasExtra("searchText")){
             Intent intent = getIntent();
@@ -71,6 +76,7 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
                         searchByName.setError("Can't be empty!!");
                     }else {
                         doSearch(searchByName.getText().toString().trim());
+                        categoryStr = searchByName.getText().toString().toUpperCase().trim();
                         searchByName.setText("");
                     }
 
@@ -79,6 +85,15 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
+
+    }
+
+    private void saveCategoriesToDB() {
+        Category category = new Category();
+        category.setName(categoryStr);
+        category.addAllRecipe(recipeList);
+        category.setImg("https://images-na.ssl-images-amazon.com/images/I/31unEqr67gL._AC_SY355_.jpg");
+        databaseReference.push().setValue(category);
     }
 
     private void doSearch(String query) {
@@ -89,7 +104,8 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         recipeList.clear();
         recipeList.addAll(recipeArrayList);
         recipeAdapter.notifyDataSetChanged();
-       // saveDataToDB();
+        //saveDataToDB();
+        //saveCategoriesToDB();
         Log.d(TAG, "showData: "+recipeList.size());
     }
 
