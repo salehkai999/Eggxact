@@ -138,7 +138,6 @@ public class ProfileFragment extends Fragment {
                 fullNameInput.setText(r.fullname);
                 emailInput.setText(r.email);
                 phoneInput.setText(r.phone);
-                passInput.setText(r.password);
             }
         });
 
