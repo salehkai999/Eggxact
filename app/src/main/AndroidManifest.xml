@@ -28,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RecipeActivity" />
+        <activity android:name=".ui.recommendation.RecommendationActivity" />
     </application>
 
 </manifest>
