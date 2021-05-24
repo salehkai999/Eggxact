@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ThemedSpinnerAdapter;
 
@@ -38,11 +39,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.AdvSearchActivity;
+import com.se491.eggxact.LandingPageActivity;
 import com.se491.eggxact.R;
 import com.se491.eggxact.Runnables.RandomRecipeRunnable;
 import com.se491.eggxact.dbutil.RandomGenerator;
 import com.se491.eggxact.structure.IngredientsAdapter;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,6 +64,7 @@ public class RandomFragment extends Fragment {
     private static RecipeInfo randomRecipe;
    // private SwipeRefreshLayout swiper;
     private RandomAdapter randomAdapter;
+    private ImageView randomImage;
     TextView titleView;
     TextView prepTimeView;
     TextView cookTimeView;
@@ -96,6 +100,7 @@ public class RandomFragment extends Fragment {
         totalTimeView = fragmentView.findViewById(R.id.randomTotalTime);
         instructionsView = fragmentView.findViewById(R.id.randomInstructions);
         ingredientsView = fragmentView.findViewById(R.id.randomIngredientsRecycler);
+        randomImage = fragmentView.findViewById(R.id.randomImg);
       //  swiper = fragmentView.findViewById(R.id.swipe);
         return fragmentView;
     }
@@ -135,8 +140,12 @@ public class RandomFragment extends Fragment {
          /* used regex to remove html tags for some reason when
          you get randoms through the API it adds html tags so this is used to remove them, will be update on Firebase later ** TODO REMOVE HTML TAGS FROM FIREBASE */
         instructionsView.setText(randomRecipe.getInstructions().replaceAll("\\<.*?>",""));
-
         instructionsView.setMovementMethod(new ScrollingMovementMethod());
+
+        Picasso.get().load(randomRecipe.getImgURL()).error(R.drawable.brokenimage)
+                .placeholder(R.drawable.placeholder).into(randomImage);
+
+        //((LandingPageActivity)getActivity()).hideBar();
     }
 
     @Override

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="random"
     tools:context=".ui.landingpage.RandomFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,12 +15,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="10dp"
             android:hint="Title"
             android:textSize="45sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
         <TextView
             android:id="@+id/randomIngredients"
@@ -89,13 +88,31 @@
         <TextView
             android:id="@+id/randomInstructions"
             android:layout_width="380dp"
-            android:layout_height="370dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Instructions"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/randomInstructionTitle" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="200dp" />
+
+        <ImageView
+            android:id="@+id/randomImg"
+            android:layout_width="407dp"
+            android:layout_height="185dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/header"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

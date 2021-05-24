@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.Runnables.RandomRecipeRunnable;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
+import com.se491.eggxact.dbutil.CategoriesHelper;
 import com.se491.eggxact.structure.RecipeHolderLookup;
 import com.se491.eggxact.structure.RecipeInfo;
 import com.se491.eggxact.ui.landingpage.FragmentAdapter;
@@ -35,17 +37,10 @@ public class LandingPageActivity extends AppCompatActivity {
 
 
     private static final String TAG = "LandingPageActivity";
+    private ImageView headerImg;
+    private TextView headerTxt;
     EditText nameTxt;
     TextView dataTxt;
-    Button testBtn;
-
-    EditText enterRecipeName;
-    Button searchIdButton;
-    Button AddRecipeButton;
-    DatabaseReference recipeHolderDatabase;
-    ListView listViewofRecipes;
-    RecipeHolderLookup lookup;
-
     TabLayout tabLayout;
     ViewPager viewPager;
 
@@ -55,11 +50,12 @@ public class LandingPageActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_landing_page);
         setContentView(R.layout.activity_landing_page);
 
+        //new Thread(new RandomRecipeRunnable(this)).start();
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
-        //new Thread(new RandomRecipeRunnable(this)).start();
+        headerImg = findViewById(R.id.headerImg);
+        headerTxt = findViewById(R.id.headerTxt);
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.pager);
@@ -93,54 +89,21 @@ public class LandingPageActivity extends AppCompatActivity {
 
 
 
-        /*
-        nameTxt = findViewById(R.id.nameTxt);
-        testBtn = findViewById(R.id.testBtn);
-        AddRecipeButton = findViewById(R.id.addRecipeId);
-        dataTxt = findViewById(R.id.dataTxt);
-        listViewofRecipes = (ListView) findViewById(R.id.ListViewRecipes);
-        recipeHolderDatabase = FirebaseDatabase.getInstance().getReference("recipeHolder");
-        lookup = new RecipeHolderLookup(recipeHolderDatabase);
-
-        enterRecipeName = findViewById(R.id.nameTxt);
-        searchIdButton = findViewById(R.id.searchId);
-
-        AddRecipeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addRecipeById();
-            }
-        });
-
-
-        searchIdButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = enterRecipeName.getText().toString().trim();
-                lookup.selectFromRecipeHolder(name, LandingPageActivity.this, listViewofRecipes);
-            }
-        });
-
-
-        /* another way to implement buttons is .setOnClickListener or via the layout designer.
-         * Keep in mind the method should be like this methodName(View v){ } when using the designer.
-         * */
-        /*
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseTestCall();
-            }
-        }); */
     }
 
-    private void addRecipeById() {
-       // lookup.addtoRecipeHolderTable(enterRecipeName);
+    public void hideBar(){
+        headerImg.setVisibility(View.INVISIBLE);
+        headerTxt.setVisibility(View.INVISIBLE);
     }
 
-    public void searchId(View v){
-        new Thread(new RecipeIdSearchRunnable("156992",this)).start(); // Using static data now will be modified later "just as proof of concept"
+    public void unhideBar(){
+        headerImg.setVisibility(View.VISIBLE);
+        headerTxt.setVisibility(View.VISIBLE);
     }
+
+
+
+
 
     public void nameSearch(View v){
         Intent searchIntent = new Intent(this,AdvSearchActivity.class);
