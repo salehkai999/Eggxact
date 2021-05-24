@@ -32,6 +32,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
         //let's initialize all private variables
         login = findViewById(R.id.btn_login);
