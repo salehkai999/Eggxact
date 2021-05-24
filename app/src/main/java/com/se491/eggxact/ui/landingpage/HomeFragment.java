@@ -91,8 +91,8 @@ public class HomeFragment extends Fragment {
                 LinearLayoutManager.HORIZONTAL,
                 false);
         recyclerView.setLayoutManager(horizontalLayout);
-        recyclerView.setAdapter(catAdapter);
-
+        recyclerView.setAdapter(catAdapter);Mai
+        fupayme
         ratedRecyclerView = fragmentView.findViewById(R.id.ratingsRecycler);
         ratingsAdapter = new RatingsAdapter(HIGHEST_RATED_LIST);
         RecyclerView.LayoutManager ratingsLayout = new LinearLayoutManager(fragmentView.getContext(),
@@ -178,7 +178,6 @@ public class HomeFragment extends Fragment {
 
 
     private void pullRecommendations() {
-        String s = "hi";
         recommendationReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -193,8 +192,9 @@ public class HomeFragment extends Fragment {
                     for (Iterator<List<RecipeInfo>> it = iterator; it.hasNext(); ) {
                         List<RecipeInfo> info = it.next();
                         CURRENT_RECOMMENDATION_LIST.add(info.get(0));
-                    }
 
+
+                    }
 
 
                 }

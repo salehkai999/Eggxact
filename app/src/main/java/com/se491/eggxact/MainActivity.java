@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         RandomGenerator.getAll();
 
-        RecommendationGenerator.addtoRecommendationTable();
+       // RecommendationGenerator.addtoRecommendationTable();
         //todo add something here
     }
 }
