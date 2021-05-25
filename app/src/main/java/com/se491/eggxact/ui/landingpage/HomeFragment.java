@@ -1,5 +1,6 @@
 package com.se491.eggxact.ui.landingpage;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -26,16 +27,26 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.R;
+
 import com.se491.eggxact.RecipeActivity;
 import com.se491.eggxact.dbutil.CategoriesHelper;
 import com.se491.eggxact.structure.Category;
 import com.se491.eggxact.ui.categoryact.CategoryActivity;
+
+import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.ui.recommendation.RecommendationActivity;
+
 import com.se491.eggxact.ui.ratingsact.RatingsActivity;
 import com.se491.eggxact.structure.Recipe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 
 
 public class HomeFragment extends Fragment implements  View.OnClickListener, RatingsAdapter.onItemClickListener {
@@ -43,17 +54,26 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
     private static final String TAG = "HomeFragment";
     private static final ArrayList<Recipe> DB_RECIPE_LIST  = new ArrayList<>();
     private static final ArrayList<Recipe> HIGHEST_RATED_LIST = new ArrayList<>();
+    private static final ArrayList<Recipe> CURRENT_RECOMMENDATION_LIST = new ArrayList<>();
 
     RecyclerView recyclerView;
     RecyclerView ratedRecyclerView;
+    RecyclerView recommendationsRecyclerView;
     CatAdapter catAdapter;
     RatingsAdapter ratingsAdapter;
+
     ArrayList<Category> catList = new ArrayList<>();
+
+    RecommendationAdapter recommendationAdapter;
+
     //ArrayList<String> ratingsList = new ArrayList<>(Arrays.asList("Thai Turkey Stir-Fry","Smash Burgers","Berry Almond Breakfast Parfait"));
     DatabaseReference databaseReference;
+    DatabaseReference recommendationReference;
     TextView catSeeAll;
     TextView ratedSeeAll;
+    TextView recommendationsSeeAll;
     EditText searchText;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -74,19 +94,21 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
+        recommendationReference = FirebaseDatabase.getInstance().getReference().child("Recommendations");
         getRecipesDB();
+
         catList = CategoriesHelper.getCategories();
         catSeeAll = fragmentView.findViewById(R.id.catSeeAll);
         recyclerView = fragmentView.findViewById(R.id.catRecycler);
         ratedSeeAll = fragmentView.findViewById(R.id.ratedSeeAll);
         catAdapter = new CatAdapter(catList,this);
+
         RecyclerView.LayoutManager horizontalLayout
                 = new LinearLayoutManager(fragmentView.getContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false);
         recyclerView.setLayoutManager(horizontalLayout);
         recyclerView.setAdapter(catAdapter);
-
         ratedRecyclerView = fragmentView.findViewById(R.id.ratingsRecycler);
         ratingsAdapter = new RatingsAdapter(HIGHEST_RATED_LIST);
         ratingsAdapter.setOnItemClickListener(this);
@@ -95,6 +117,16 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
                 false);
         ratedRecyclerView.setLayoutManager(ratingsLayout);
         ratedRecyclerView.setAdapter(ratingsAdapter);
+
+      recommendationsSeeAll = fragmentView.findViewById((R.id.recommendationsSeeAll));
+        recommendationsRecyclerView = fragmentView.findViewById(R.id.RecommendationsRecycler);
+        recommendationAdapter = new RecommendationAdapter(catList);
+        RecyclerView.LayoutManager recRecyclerLayout = new LinearLayoutManager(fragmentView.getContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false);
+        recommendationsRecyclerView.setLayoutManager(recRecyclerLayout);
+        recommendationsRecyclerView.setAdapter(recommendationAdapter);
+
         searchText = fragmentView.findViewById(R.id.search_recipe);
         catSeeAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +150,20 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
             }
         });
 
+
+        recommendationsSeeAll.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                for(int i=0; i< catList.size(); i++) {
+                    CURRENT_RECOMMENDATION_LIST.add(catList.get(i).getRecipes().get(0));
+                }
+
+                Intent intent = new Intent(getActivity(), RecommendationActivity.class);
+                intent.putExtra("recommendations",CURRENT_RECOMMENDATION_LIST);
+                startActivity(intent);
+
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -149,6 +195,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
                     }
                 }
                 return false;
+
             }
         });
 
