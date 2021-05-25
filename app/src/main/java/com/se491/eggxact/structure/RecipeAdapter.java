@@ -11,6 +11,7 @@ import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.R;
 import com.se491.eggxact.ui.categoryact.CategoryActivity;
 import com.se491.eggxact.ui.landingpage.CategoriesFragment;
+import com.se491.eggxact.ui.recommendation.RecommendationActivity;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
     private ArrayList<Recipe> recipes;
     private AdvSearchActivity advSearchActivity;
     private CategoryActivity categoryActivity;
+    private RecommendationActivity recommendationActivity;
 
     public RecipeAdapter(ArrayList<Recipe> recipes, AdvSearchActivity advSearchActivity) {
         this.recipes = recipes;
@@ -34,6 +36,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         flag = 2;
     }
 
+
+    public RecipeAdapter(ArrayList<Recipe> recipes, RecommendationActivity recommendationActivity) {
+        this.recipes = recipes;
+        this.recommendationActivity = recommendationActivity;
+        flag = 3;
+    }
+
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,6 +50,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         switch (flag) {
             case 1: itemView.setOnClickListener(advSearchActivity); break;
             case 2: itemView.setOnClickListener(categoryActivity); break;
+            case 3: itemView.setOnClickListener(recommendationActivity); break;
             default:
         }
 

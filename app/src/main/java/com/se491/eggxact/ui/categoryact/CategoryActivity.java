@@ -39,6 +39,13 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(recipeAdapter);
         }
+        else if(intent.hasExtra(Recipe.class.getName())) {
+            ArrayList<Recipe> r = (ArrayList<Recipe>) intent.getSerializableExtra(Recipe.class.getName());
+            recipeList.addAll(r);
+            recipeAdapter = new RecipeAdapter(r,this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(recipeAdapter);
+        }
 
     }
 

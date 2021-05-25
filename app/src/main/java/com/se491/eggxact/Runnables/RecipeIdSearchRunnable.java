@@ -15,6 +15,7 @@ import com.se491.eggxact.structure.RecipeInfo;
 import com.se491.eggxact.ui.categoryact.CategoryActivity;
 import com.se491.eggxact.ui.ratingsact.RatingsActAdapter;
 import com.se491.eggxact.ui.ratingsact.RatingsActivity;
+import com.se491.eggxact.ui.recommendation.RecommendationActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,6 +39,7 @@ public class RecipeIdSearchRunnable implements Runnable {
     private RatingsActivity ratingsActivity;
     private CategoryActivity categoryActivity;
     private RecipeActivity recipeActivity;
+    private RecommendationActivity recommendationActivity;
 
 
 
@@ -63,6 +65,12 @@ public class RecipeIdSearchRunnable implements Runnable {
         API_KEY = this.ratingsActivity.getString(R.string.API_KEY1);
     }
 
+
+    public RecipeIdSearchRunnable(String queryID, RecommendationActivity recommendationActivity){
+        this.queryID = queryID;
+        this.recommendationActivity = recommendationActivity;
+        API_KEY = this.recommendationActivity.getString(R.string.API_KEY1);
+    }
 
 
     public RecipeIdSearchRunnable(String queryID) {
@@ -190,6 +198,15 @@ public class RecipeIdSearchRunnable implements Runnable {
                     @Override
                     public void run() {
                         categoryActivity.passRecipeObject(recipeInfo);
+                    }
+                });
+            }
+
+            else if(recommendationActivity != null){
+                recommendationActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recommendationActivity.passRecipeObject(recipeInfo);
                     }
                 });
             }

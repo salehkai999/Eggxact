@@ -8,35 +8,67 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.se491.eggxact.R;
-import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.structure.Category;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class RecommendationAdapter extends RecyclerView.Adapter<RandomViewHolder> {
+public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationHolder> {
 
-    //map of recommendations by category
-    private ArrayList<RecipeInfo> recommendations = new ArrayList<>();
 
-    public RecommendationAdapter(ArrayList<RecipeInfo> recommendations) {
-        this.recommendations = recommendations;
+    ArrayList<Category> recommendations = new ArrayList<>();
+    RecomendationsFragment recommendationsFragment;
+    HomeFragment homeFragment;
+
+    public RecommendationAdapter(ArrayList<Category> recList, RecomendationsFragment recommendationsFragment) {
+        this.recommendations = recList;
+        this.recommendationsFragment = recommendationsFragment;
+    }
+
+    public RecommendationAdapter(ArrayList<Category> recList, HomeFragment homeFragment){
+        this.recommendations = recList;
+        this.homeFragment = homeFragment;
+    }
+
+
+    public RecommendationAdapter(ArrayList<Category> recList) {
+        this.recommendations = recList;
     }
 
     @NonNull
     @Override
-    public RandomViewHolder onCreateViewHolder(@NonNull  ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.categories_item_layout,parent,false);
-        return new RandomViewHolder(itemView);
+    public RecommendationHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item_layout,parent,false);
+        if(recommendationsFragment != null)
+            itemView.setOnClickListener(recommendationsFragment);
+        else if(homeFragment != null)
+            itemView.setOnClickListener(homeFragment);
+        return  new RecommendationHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull  RandomViewHolder holder, int position) {
-            holder.ingredient.setText(recommendations.get(position).getName());
+    public void onBindViewHolder(@NonNull  RecommendationHolder holder, int position) {
+        holder.recommendationRecipe.setText(recommendations.get(position).getName());
+
+//        Picasso.get().load(recommendations.get(position).getImg()).error(R.drawable.brokenimage)
+//                .placeholder(R.drawable.placeholder).into(holder.image, new Callback() {
+//            @Override
+//            public void onSuccess() {
+//                holder.cardTxt.setVisibility(View.INVISIBLE);
+//            }
+//
+//            @Override
+//            public void onError(Exception e) {
+//                holder.cardTxt.setVisibility(View.VISIBLE);
+//                holder.image.setVisibility(View.INVISIBLE);
+//            }
+//        });
     }
 
     @Override
     public int getItemCount() {
         return recommendations.size();
     }
+
+
 
 }

@@ -1,10 +1,11 @@
 package com.se491.eggxact.ui.landingpage;
 
-import android.app.Fragment;
+
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,7 +50,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
     private static final String TAG = "HomeFragment";
     private static final ArrayList<Recipe> DB_RECIPE_LIST  = new ArrayList<>();
     private static final ArrayList<Recipe> HIGHEST_RATED_LIST = new ArrayList<>();
-    private static final ArrayList<RecipeInfo> CURRENT_RECOMMENDATION_LIST = new ArrayList<>();
+    private static final ArrayList<Recipe> CURRENT_RECOMMENDATION_LIST = new ArrayList<>();
 
     RecyclerView recyclerView;
     RecyclerView ratedRecyclerView;
@@ -96,8 +97,6 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
         ratedSeeAll = fragmentView.findViewById(R.id.ratedSeeAll);
         catAdapter = new CatAdapter(catList,this);
 
-        pullRecommendations();
-
         RecyclerView.LayoutManager horizontalLayout
                 = new LinearLayoutManager(fragmentView.getContext(),
                 LinearLayoutManager.HORIZONTAL,
@@ -113,9 +112,9 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
         ratedRecyclerView.setLayoutManager(ratingsLayout);
         ratedRecyclerView.setAdapter(ratingsAdapter);
 
-
+        recommendationsSeeAll = fragmentView.findViewById((R.id.recommendationsSeeAll));
         recommendationsRecyclerView = fragmentView.findViewById(R.id.RecommendationsRecycler);
-        recommendationAdapter = new RecommendationAdapter(CURRENT_RECOMMENDATION_LIST);
+        recommendationAdapter = new RecommendationAdapter(catList);
         RecyclerView.LayoutManager recRecyclerLayout = new LinearLayoutManager(fragmentView.getContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false);
@@ -149,8 +148,13 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
 
             @Override
             public void onClick(View v) {
+
+                for(int i=0; i< catList.size(); i++) {
+                    CURRENT_RECOMMENDATION_LIST.add(catList.get(i).getRecipes().get(0));
+                }
+
                 Intent intent = new Intent(getActivity(), RecommendationActivity.class);
-                intent.putExtra("ratings",DB_RECIPE_LIST);
+                intent.putExtra("recommendations",CURRENT_RECOMMENDATION_LIST);
                 startActivity(intent);
             }
         });
@@ -205,40 +209,5 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
         Intent intent = new Intent(getContext(), RecipeActivity.class);
         intent.putExtra(Recipe.class.getName(),recipe);
         startActivity(intent);
-    }
-
-
-    private void pullRecommendations() {
-        recommendationReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                CURRENT_RECOMMENDATION_LIST.clear();
-                Iterable<DataSnapshot> iterable = snapshot.getChildren();
-                for(DataSnapshot snap : iterable) {
-                    Map<String, List<RecipeInfo>> value = (HashMap) snap.getValue();
-                    //TODO:update this to pick a random one in the list of recommendations, or keep it as one.
-                    Collection<List<RecipeInfo>> values = value.values();
-                    Iterator<List<RecipeInfo>> iterator = values.iterator();
-
-                    for (Iterator<List<RecipeInfo>> it = iterator; it.hasNext(); ) {
-                        List<RecipeInfo> info = it.next();
-                        CURRENT_RECOMMENDATION_LIST.add(info.get(0));
-
-
-                    }
-
-
-                }
-                ratingsAdapter.notifyDataSetChanged();
-                Log.d(TAG, "onDataChange get mapping ");
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
     }
 }
