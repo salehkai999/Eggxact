@@ -13,7 +13,6 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     FavoritesFragment favoritesFragment;
     RandomFragment randomFragment;
     ProfileFragment profileFragment;
-    RecomendationsFragment recomendationsFragment;
 
     public FragmentAdapter(FragmentManager fm) {
         super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -44,11 +43,6 @@ public class FragmentAdapter extends FragmentPagerAdapter {
                 }
                 return favoritesFragment;
             case 4:
-                if (recomendationsFragment == null) {
-                    recomendationsFragment = RecomendationsFragment.newInstance();
-                }
-                return recomendationsFragment;
-            case 5:
             default:
                 if (profileFragment == null) {
                     profileFragment = ProfileFragment.newInstance();
@@ -79,8 +73,6 @@ public class FragmentAdapter extends FragmentPagerAdapter {
             case 3:
                 return "Favorites";
             case 4:
-                return "Recommendations";
-            case 5:
                 return "Profile";
             default:
                 return "";
