@@ -10,9 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.se491.eggxact.AdvSearchActivity;
 import com.se491.eggxact.R;
 
 import com.se491.eggxact.RecipeActivity;
@@ -68,6 +72,8 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
     TextView catSeeAll;
     TextView ratedSeeAll;
     TextView recommendationsSeeAll;
+    EditText searchText;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -112,7 +118,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
         ratedRecyclerView.setLayoutManager(ratingsLayout);
         ratedRecyclerView.setAdapter(ratingsAdapter);
 
-        recommendationsSeeAll = fragmentView.findViewById((R.id.recommendationsSeeAll));
+      recommendationsSeeAll = fragmentView.findViewById((R.id.recommendationsSeeAll));
         recommendationsRecyclerView = fragmentView.findViewById(R.id.RecommendationsRecycler);
         recommendationAdapter = new RecommendationAdapter(catList);
         RecyclerView.LayoutManager recRecyclerLayout = new LinearLayoutManager(fragmentView.getContext(),
@@ -121,7 +127,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
         recommendationsRecyclerView.setLayoutManager(recRecyclerLayout);
         recommendationsRecyclerView.setAdapter(recommendationAdapter);
 
-
+        searchText = fragmentView.findViewById(R.id.search_recipe);
         catSeeAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +150,7 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
             }
         });
 
+
         recommendationsSeeAll.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -156,6 +163,39 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
                 Intent intent = new Intent(getActivity(), RecommendationActivity.class);
                 intent.putExtra("recommendations",CURRENT_RECOMMENDATION_LIST);
                 startActivity(intent);
+
+        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((actionId == EditorInfo.IME_ACTION_GO)) {
+                    if (searchText.getText().toString().trim().isEmpty()) {
+                        searchText.setError("Can't be empty!!");
+                    } else {
+                        Intent i = new Intent(HomeFragment.this.getActivity(), AdvSearchActivity.class);
+                        i.putExtra("searchText", searchText.getText().toString().trim());
+                        startActivity(i);
+                    }
+                }
+                return false;
+            }
+        });
+
+        searchText = fragmentView.findViewById(R.id.search_recipe);
+
+        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((actionId == EditorInfo.IME_ACTION_GO)) {
+                    if (searchText.getText().toString().trim().isEmpty()) {
+                        searchText.setError("Can't be empty!!");
+                    } else {
+                        Intent i = new Intent(HomeFragment.this.getActivity(), AdvSearchActivity.class);
+                        i.putExtra("searchText", searchText.getText().toString().trim());
+                        startActivity(i);
+                    }
+                }
+                return false;
+
             }
         });
 

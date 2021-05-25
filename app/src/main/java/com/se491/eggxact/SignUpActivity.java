@@ -30,6 +30,10 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         mAuth = FirebaseAuth.getInstance();
 
         eFullname = findViewById(R.id.et_fullname_register);
@@ -101,7 +105,8 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    User user = new User(fullname, phone, email, password);
+                    //String encryptedPass = encryptPassword(password);
+                    User user = new User(fullname, phone, email);
 
                     FirebaseDatabase.getInstance().getReference("Users")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -125,4 +130,5 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
     }
+
 }
