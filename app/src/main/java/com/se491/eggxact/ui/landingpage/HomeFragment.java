@@ -152,17 +152,18 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
 
 
         recommendationsSeeAll.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
 
-                for(int i=0; i< catList.size(); i++) {
+                for (int i = 0; i < catList.size(); i++) {
                     CURRENT_RECOMMENDATION_LIST.add(catList.get(i).getRecipes().get(0));
                 }
 
                 Intent intent = new Intent(getActivity(), RecommendationActivity.class);
-                intent.putExtra("recommendations",CURRENT_RECOMMENDATION_LIST);
+                intent.putExtra("recommendations", CURRENT_RECOMMENDATION_LIST);
                 startActivity(intent);
+            }
+          });
 
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
