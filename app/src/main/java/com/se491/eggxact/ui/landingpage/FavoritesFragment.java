@@ -3,6 +3,7 @@ package com.se491.eggxact.ui.landingpage;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,12 +40,13 @@ public class FavoritesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View fragmentView = inflater.inflate(R.layout.fragment_favorites, container, false);
         recyclerView = fragmentView.findViewById(R.id.favRecycler);
-        favAdapter = new FavAdapter(favList);
+        favAdapter = new FavAdapter(favList,getContext(),this);
         recyclerView.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
         recyclerView.setAdapter(favAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeDeleteCallback(favAdapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
         return fragmentView;
     }
 }
