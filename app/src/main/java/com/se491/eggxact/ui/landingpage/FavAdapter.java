@@ -60,8 +60,12 @@ public class FavAdapter extends RecyclerView.Adapter<FavViewHolder> {
 
     private void showSnackbar() {
         View view = favoritesFragment.getView().findViewById(R.id.coordinator);
-        Snackbar snackbar = Snackbar.make(view, "You deleted " + favData, Snackbar.LENGTH_INDEFINITE);
-        snackbar.setActionTextColor(Color.CYAN);
+        Snackbar snackbar = Snackbar.make(view, "You deleted " + favData, Snackbar.LENGTH_LONG);
+        snackbar.setActionTextColor(Color.BLUE);
+        snackbar.setAction("Undo", v -> {
+            favList.add(deletePos,favData);
+            notifyItemInserted(deletePos);
+        });
         snackbar.show();
     }
 
