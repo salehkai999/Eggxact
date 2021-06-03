@@ -52,6 +52,7 @@ public class FiltersActivity extends AppCompatActivity {
             Toast.makeText(this, "Please Add items!!", Toast.LENGTH_SHORT).show();
         }
         else {
+            Toast.makeText(this, String.valueOf(itemsLayout.getChildCount()), Toast.LENGTH_LONG).show();
             Log.d(TAG, "search: "+itemsLayout.getChildCount());
             filterItems.clear();
             for(int i=0;i<itemsLayout.getChildCount();i++)
