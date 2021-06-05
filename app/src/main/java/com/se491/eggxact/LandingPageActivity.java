@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +33,7 @@ import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.dbutil.CategoriesHelper;
 import com.se491.eggxact.structure.RecipeHolderLookup;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.ui.filtering.FiltersActivity;
 import com.se491.eggxact.ui.landingpage.FragmentAdapter;
 import com.se491.eggxact.ui.landingpage.RandomFragment;
 
@@ -51,9 +56,8 @@ public class LandingPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing_page);
 
         //new Thread(new RandomRecipeRunnable(this)).start();
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+
+        this.setTitle("Welcome ");
         headerImg = findViewById(R.id.headerImg);
         headerTxt = findViewById(R.id.headerTxt);
 
@@ -91,6 +95,30 @@ public class LandingPageActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.landing_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.searchByFilter:
+                openFilterSearch();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    private void openFilterSearch() {
+        Intent i = new Intent(this, FiltersActivity.class);
+        startActivity(i);
+    }
+
+
     public void hideBar(){
         headerImg.setVisibility(View.INVISIBLE);
         headerTxt.setVisibility(View.INVISIBLE);
@@ -100,8 +128,6 @@ public class LandingPageActivity extends AppCompatActivity {
         headerImg.setVisibility(View.VISIBLE);
         headerTxt.setVisibility(View.VISIBLE);
     }
-
-
 
 
 

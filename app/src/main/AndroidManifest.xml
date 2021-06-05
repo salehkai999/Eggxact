@@ -13,11 +13,7 @@
         android:theme="@style/Theme.Eggxact">
         <activity android:name=".ui.filtering.FilterResults"></activity>
         <activity android:name=".ui.filtering.FiltersActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".CrashActivity" />
         <activity android:name=".ui.categoryact.CategoryActivity" />
@@ -28,6 +24,11 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".LandingPageActivity" />
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".RecipeActivity" />
         <activity android:name=".ui.recommendation.RecommendationActivity" />
