@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.se491.eggxact.R;
+import com.se491.eggxact.RecipeActivity;
 import com.se491.eggxact.structure.Recipe;
 
 import java.util.ArrayList;
 
-public class FilterResults extends AppCompatActivity {
+public class FilterResults extends AppCompatActivity implements View.OnClickListener {
 
     private ArrayList<Recipe> recipes;
     private RecyclerView recyclerView;
@@ -31,5 +34,14 @@ public class FilterResults extends AppCompatActivity {
         else {
             this.setTitle("Oops!! Something went wrong.");
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int pos = recyclerView.getChildAdapterPosition(v);
+        Recipe r = recipes.get(pos);
+        Intent intent = new Intent(this, RecipeActivity.class);
+        intent.putExtra(Recipe.class.getName(),r);
+        startActivity(intent);
     }
 }
