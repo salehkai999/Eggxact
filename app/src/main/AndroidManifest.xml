@@ -6,9 +6,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/eggxact_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/eggxact_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Eggxact">
         <activity android:name=".ui.filtering.FilterResults"></activity>
@@ -18,7 +18,9 @@
         <activity android:name=".CrashActivity" />
         <activity android:name=".ui.categoryact.CategoryActivity" />
         <activity android:name=".ui.ratingsact.RatingsActivity" />
-        <activity android:name=".AdvSearchActivity" />
+        <activity android:name=".AdvSearchActivity" >
+
+        </activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".LoginActivity" />
