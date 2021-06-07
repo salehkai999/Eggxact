@@ -1,5 +1,6 @@
 package com.se491.eggxact;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,11 +16,17 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.structure.IngredientsAdapter;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeAdapter;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.structure.User;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -41,6 +48,16 @@ public class RecipeActivity extends AppCompatActivity {
     private RecipeInfo recipeInfo;
     private ProgressBar progressBar;
 
+    private TextView likesText;
+    private TextView dislikesText;
+    private ImageView likeBtn;
+    private ImageView dislikeBtn;
+
+    //private Recipe recipe;
+
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +74,42 @@ public class RecipeActivity extends AppCompatActivity {
         ingredientsView = findViewById(R.id.ingredientsList);
         progressBar = findViewById(R.id.progressBarRecipe);
 
+        likesText = findViewById(R.id.likesText);
+        dislikesText = findViewById(R.id.dislikeText);
+        likeBtn = findViewById(R.id.likeButton);
+        dislikeBtn = findViewById(R.id.dislikeButton);
+
+
+
         if(getIntent().hasExtra("RecipeInfo")) {
             recipeInfo = (RecipeInfo) getIntent().getSerializableExtra("RecipeInfo");
+
+            reference.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
+//                        Log.d(TAG, "Data exists " + recipeInfo.getRecipeId());
+                        //will get likes and dislikes values here
+                    }
+                    else{
+                        // Add the recipe to recipeHolder with 0 likes and 0 dislikes
+                        Log.d(TAG, "Data does not exist for recipeId " + recipeInfo.getRecipeId());
+                        Recipe r = new Recipe();
+                        r.setRecipeId(recipeInfo.getRecipeId());
+                        r.setDislikes(0);
+                        r.setLikes(0);
+                        r.setRecipeName(recipeInfo.getName());
+                        r.setSourceUrl("");
+                        reference.push().setValue(r);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
             showData();
-            Log.d("RecipeActivity", "passedRecipeObject: " + recipeInfo.toString());
         }
         else {
             progressBar.setVisibility(View.VISIBLE);
@@ -69,7 +118,68 @@ public class RecipeActivity extends AppCompatActivity {
             downloadDataThenShow();
         }
 
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementLikes();
+            }
+        });
 
+        dislikeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                decrementLikes();
+            }
+        });
+
+
+
+
+    }
+
+    private void incrementLikes(){
+        long cnt = (long) Double.parseDouble(likesText.getText().toString());
+        cnt++;
+        likesText.setText((Long.toString(cnt)));
+        long finalCnt = cnt;
+        reference.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                    String key = childSnapshot.getKey();
+                    reference.child(key).child("likes").setValue(finalCnt);
+                    //Log.d(TAG,"This is the key " + clubkey);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void decrementLikes(){
+        long cnt = (long) Double.parseDouble(dislikesText.getText().toString());
+        cnt--;
+        dislikesText.setText((Long.toString(cnt)));
+        long finalCnt = cnt;
+        reference.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                    String key = childSnapshot.getKey();
+//                    Log.d(TAG,"This is the key " + key);
+                    reference.child(key).child("dislikes").setValue(finalCnt);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void hideViews() {
@@ -86,7 +196,7 @@ public class RecipeActivity extends AppCompatActivity {
 
     private void downloadDataThenShow() {
         Recipe recipe = (Recipe) getIntent().getSerializableExtra(Recipe.class.getName());
-        Log.d(TAG, "downloadDataThenShow: "+recipe.getRecipeId());
+        Log.d(TAG, "downloadDataThenShow: "+recipe.toString());
         new Thread(new RecipeIdSearchRunnable(recipe.getRecipeId(),this)).start();
     }
 
@@ -116,6 +226,30 @@ public class RecipeActivity extends AppCompatActivity {
                 .placeholder(R.drawable.placeholder).into(recipeImg);
 
         progressBar.setVisibility(View.GONE);
+
+        reference.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    Log.d(TAG, "Data exists here" + snapshot.getValue());
+                    Recipe r = new Recipe();
+                    for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                        r = dataSnapshot.getValue(Recipe.class);
+                    }
+                    Log.d(TAG,"Likes " + r.toString() );
+                    likesText.setText(String.valueOf(r.getLikes()));
+                    dislikesText.setText(String.valueOf(r.getDislikes()));
+                }
+                else{
+//                    Log.d(TAG, "Data does not exist for recipeId " + recipe.getRecipeId());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void showViews() {
