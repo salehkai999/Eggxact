@@ -56,6 +56,7 @@ public class RecipeActivity extends AppCompatActivity {
     //private Recipe recipe;
 
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
+    private String key;
 
 
     @Override
@@ -128,7 +129,7 @@ public class RecipeActivity extends AppCompatActivity {
         dislikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                decrementLikes();
+                incrementDislikes();
             }
         });
 
@@ -142,44 +143,15 @@ public class RecipeActivity extends AppCompatActivity {
         cnt++;
         likesText.setText((Long.toString(cnt)));
         long finalCnt = cnt;
-        reference.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
-                    String key = childSnapshot.getKey();
-                    reference.child(key).child("likes").setValue(finalCnt);
-                    //Log.d(TAG,"This is the key " + clubkey);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        reference.child(key).child("likes").setValue(finalCnt);
     }
 
-    private void decrementLikes(){
+    private void incrementDislikes(){
         long cnt = (long) Double.parseDouble(dislikesText.getText().toString());
-        cnt--;
+        cnt++;
         dislikesText.setText((Long.toString(cnt)));
         long finalCnt = cnt;
-        reference.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
-                    String key = childSnapshot.getKey();
-//                    Log.d(TAG,"This is the key " + key);
-                    reference.child(key).child("dislikes").setValue(finalCnt);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        reference.child(key).child("dislikes").setValue(finalCnt);
     }
 
     private void hideViews() {
@@ -192,6 +164,10 @@ public class RecipeActivity extends AppCompatActivity {
         ingredientsView.setVisibility(View.INVISIBLE);
         instructionsTxt.setVisibility(View.INVISIBLE);
         ingredientsTxt.setVisibility(View.INVISIBLE);
+        likesText.setVisibility(View.INVISIBLE);
+        dislikesText.setVisibility(View.INVISIBLE);
+        likeBtn.setVisibility(View.INVISIBLE);
+        dislikeBtn.setVisibility(View.INVISIBLE);
     }
 
     private void downloadDataThenShow() {
@@ -235,6 +211,9 @@ public class RecipeActivity extends AppCompatActivity {
                     Recipe r = new Recipe();
                     for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                         r = dataSnapshot.getValue(Recipe.class);
+                        key = dataSnapshot.getKey();
+                        Log.d(TAG,"Key exists here " + key);
+
                     }
                     Log.d(TAG,"Likes " + r.toString() );
                     likesText.setText(String.valueOf(r.getLikes()));
@@ -262,5 +241,9 @@ public class RecipeActivity extends AppCompatActivity {
         ingredientsView.setVisibility(View.VISIBLE);
         instructionsTxt.setVisibility(View.VISIBLE);
         ingredientsTxt.setVisibility(View.VISIBLE);
+        likesText.setVisibility(View.VISIBLE);
+        dislikesText.setVisibility(View.VISIBLE);
+        likeBtn.setVisibility(View.VISIBLE);
+        dislikeBtn.setVisibility(View.VISIBLE);
     }
 }
