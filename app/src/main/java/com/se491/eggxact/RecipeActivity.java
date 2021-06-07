@@ -77,7 +77,7 @@ public class RecipeActivity extends AppCompatActivity {
         viewCommentsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CommentRecyclerActivity.class);
+                Intent intent = new Intent(RecipeActivity.this, CommentRecyclerActivity.class);
                 startActivity(intent);
             }
         });

@@ -26,7 +26,7 @@ public class CommentRecyclerActivity extends AppCompatActivity implements View.O
             super.onCreate(savedInstanceState);
                 Log.d(TAG, "onCreate: FOUND");
                 RecyclerView myRecycler = findViewById(R.id.my_recycler_view);
-                submitButton = findViewById(R.id.button);
+                submitButton = findViewById(R.id.commentbutton);
 
                 comments.add("Please add your review of the recipe here!");
 
