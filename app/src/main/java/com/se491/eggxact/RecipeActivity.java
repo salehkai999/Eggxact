@@ -4,27 +4,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.structure.IngredientsAdapter;
 import com.se491.eggxact.structure.Recipe;
-import com.se491.eggxact.structure.RecipeAdapter;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.ui.comment.CommentRecyclerActivity;
+import com.se491.eggxact.ui.comment.CommentRecyclerAdapter;
+import com.se491.eggxact.ui.ratingsact.RatingsActivity;
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecipeActivity extends AppCompatActivity {
 
@@ -40,6 +41,7 @@ public class RecipeActivity extends AppCompatActivity {
     private RecyclerView ingredientsView;
     private RecipeInfo recipeInfo;
     private ProgressBar progressBar;
+    private Button viewCommentsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class RecipeActivity extends AppCompatActivity {
         recipeImg = findViewById(R.id.recipeImg);
         ingredientsView = findViewById(R.id.ingredientsList);
         progressBar = findViewById(R.id.progressBarRecipe);
+        viewCommentsButton = findViewById(R.id.commentButton);
 
         if(getIntent().hasExtra("RecipeInfo")) {
             recipeInfo = (RecipeInfo) getIntent().getSerializableExtra("RecipeInfo");
@@ -68,6 +71,16 @@ public class RecipeActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate: FOUND");
             downloadDataThenShow();
         }
+
+
+
+        viewCommentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CommentRecyclerActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
