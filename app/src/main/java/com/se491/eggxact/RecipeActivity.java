@@ -30,12 +30,14 @@ import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.structure.IngredientsAdapter;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.ui.FavoriteActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecipeActivity extends AppCompatActivity {
+import static com.se491.eggxact.ui.landingpage.FavoritesFragment.*;
 
+public class RecipeActivity extends AppCompatActivity {
     private static final String TAG = "RecipeActivity";
     private TextView titleView;
     private TextView prepTimeView;
@@ -147,12 +149,13 @@ public class RecipeActivity extends AppCompatActivity {
             if(RECIPE_INFO_LIST.isEmpty()){
                 RECIPE_INFO_LIST.add(recipeInfo);
                 reference.child(Integer.toString(0)).setValue(recipeInfo);
-
+                favList.add(new Recipe(Integer.toString(RECIPE_INFO_LIST.size()),recipeInfo.getName()));
             }
             else {
                 if(!checkIfFavExist()){
                     RECIPE_INFO_LIST.add(recipeInfo);
                     reference.child(Integer.toString(RECIPE_INFO_LIST.size()-1)).setValue(recipeInfo);
+                    favList.add(new Recipe(Integer.toString(RECIPE_INFO_LIST.size()),recipeInfo.getName()));
                 }
             }
 
