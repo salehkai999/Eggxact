@@ -14,19 +14,21 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.se491.eggxact.R;
+import com.se491.eggxact.structure.RecipeInfo;
 
 import java.util.ArrayList;
 
 public class FavAdapter extends RecyclerView.Adapter<FavViewHolder> {
 
-    private ArrayList<String> favList;
+    private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Favorites").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    private ArrayList<RecipeInfo> favList;
     private Context context;
     private FavoritesFragment favoritesFragment;
-    private String favData;
+    private RecipeInfo favData;
     private  int deletePos;
 
 
-    public FavAdapter(ArrayList<String> favList, Context context, FavoritesFragment favoritesFragment) {
+    public FavAdapter(ArrayList<RecipeInfo> favList, Context context, FavoritesFragment favoritesFragment) {
         this.favList = favList;
         this.context = context;
         this.favoritesFragment = favoritesFragment;
@@ -41,11 +43,11 @@ public class FavAdapter extends RecyclerView.Adapter<FavViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull  FavViewHolder holder, int position) {
-        if(favList.get(position).length() > 31) {
-            holder.title.setText(favList.get(position).substring(0,31)+"...");
+        if(favList.get(position).getName().length() > 31) {
+            holder.title.setText(favList.get(position).getName().substring(0,31)+"...");
         }
         else
-            holder.title.setText(favList.get(position));
+            holder.title.setText(favList.get(position).getName());
     }
 
     @Override
@@ -60,14 +62,13 @@ public class FavAdapter extends RecyclerView.Adapter<FavViewHolder> {
     public void deleteFave(int pos){
         favData = favList.get(pos);
         deletePos = pos;
-        String str = favList.remove(pos);
+        RecipeInfo str = favList.remove(pos);
         removeFromDB(String.valueOf(deletePos));
         notifyItemRemoved(pos);
         showSnackbar();
     }
 
     private void removeFromDB(String pos) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Test").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         databaseReference.child(pos).removeValue();
     }
 
@@ -77,9 +78,14 @@ public class FavAdapter extends RecyclerView.Adapter<FavViewHolder> {
         snackbar.setActionTextColor(Color.BLUE);
         snackbar.setAction("Undo", v -> {
             favList.add(deletePos,favData);
+            readdToDB(String.valueOf(deletePos),favData);
             notifyItemInserted(deletePos);
         });
         snackbar.show();
+    }
+
+    private void readdToDB(String pos, RecipeInfo favData) {
+        databaseReference.child(pos).setValue(favData);
     }
 
 
