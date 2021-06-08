@@ -140,7 +140,9 @@ public class RecipeIdSearchRunnable implements Runnable {
         try {
             RecipeInfo recipeInfo = new RecipeInfo();
             JSONObject jsonObject = new JSONObject(data);
-           // Log.d(TAG, "processData: Title "+jsonObject.getString("title"));
+//            Log.d(TAG, "processData: This is the id "+ jsonObject);
+            if(jsonObject.has("id"))
+                recipeInfo.setRecipeId(jsonObject.getString("id"));
             if(jsonObject.has("title"))
                 recipeInfo.setName(jsonObject.getString("title"));
            // Log.d(TAG, "processData: Mins "+jsonObject.getString("readyInMinutes"));
