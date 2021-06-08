@@ -52,11 +52,11 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         recipeAdapter = new RecipeAdapter(recipeList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recipeAdapter);
-
+        this.setTitle("Search");
 
        // new Thread(new RandomRecipeRunnable()).start();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("cuisines");
+       // databaseReference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
 
         if(getIntent().hasExtra("searchText")){
             Intent intent = getIntent();
@@ -88,11 +88,17 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.setTitle("Recipes ("+recipeList.size()+")");
+    }
+
     private void saveCategoriesToDB() {
         Category category = new Category();
         category.setName(categoryStr);
         category.addAllRecipe(recipeList);
-        category.setImg("https://images-na.ssl-images-amazon.com/images/I/31unEqr67gL._AC_SY355_.jpg");
+        category.setImg("https://images-na.ssl-images-amazon.com/images/I/31unEqr67gL._AC_SY355_.jpg"); // change the image URL when adding a new category or cuisine for cuisines make sure to persist it under the cuisines table.
         databaseReference.push().setValue(category);
     }
 
@@ -106,10 +112,11 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         recipeAdapter.notifyDataSetChanged();
         //saveDataToDB();
         //saveCategoriesToDB();
+        this.setTitle("Recipes ("+recipeList.size()+")");
         Log.d(TAG, "showData: "+recipeList.size());
     }
 
-    private void saveDataToDB() {
+    private void saveDataToDB() { // used to persist recipeHolders
         Log.d(TAG, "saveDataToDB: ");
         for(Recipe r : recipeList){
             databaseReference.push().setValue(r);
@@ -122,13 +129,14 @@ public class AdvSearchActivity extends AppCompatActivity implements View.OnClick
         Recipe recipe = recipeList.get(pos);
         Toast.makeText(this, recipe.recipeName+" : "+recipe.recipeId, Toast.LENGTH_SHORT).show();
         new Thread(new RecipeIdSearchRunnable(recipe.recipeId,this)).start();
+        this.setTitle("Loading...");
         // I will consider adding a progress bar to let the user know that the app is still working LOL.
     }
 
     public void passRecipeObject(RecipeInfo recipeInfo) {
         Log.d(TAG, "passRecipeObject: "+recipeInfo.toString());
         /* Moving to RecipeActivity here, pass the recipeInfo object .putExtra and in your activity it should check if there's an extra and use getSerializableExtra (You can comment out the logs)
-            Logs are useful for debugging and getting the functionality right.
+         * Logs are useful for debugging and getting the functionality right.
          */
         Intent i = new Intent(this,RecipeActivity.class);
         i.putExtra("RecipeInfo",recipeInfo);
