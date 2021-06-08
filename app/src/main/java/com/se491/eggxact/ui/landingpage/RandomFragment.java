@@ -12,9 +12,11 @@ import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ThemedSpinnerAdapter;
@@ -33,6 +35,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -72,6 +76,13 @@ public class RandomFragment extends Fragment {
     TextView instructionsView;
     RecyclerView ingredientsView;
 
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Favorites");
+    private String id = user.getUid();
+
+    private FirebaseUser userP;
+
+
 
     public RandomFragment() {
         // Required empty public constructor
@@ -101,6 +112,7 @@ public class RandomFragment extends Fragment {
         instructionsView = fragmentView.findViewById(R.id.randomInstructions);
         ingredientsView = fragmentView.findViewById(R.id.randomIngredientsRecycler);
         randomImage = fragmentView.findViewById(R.id.randomImg);
+        //notFav = fragmentView.findViewById(R.id.imgbtn_notfav_fragrand);
       //  swiper = fragmentView.findViewById(R.id.swipe);
         return fragmentView;
     }

@@ -28,6 +28,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+
         recyclerView = findViewById(R.id.catActRecycler);
         Intent intent = getIntent();
         if(intent.hasExtra(Category.class.getName())){
