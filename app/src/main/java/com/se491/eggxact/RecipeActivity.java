@@ -18,11 +18,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.structure.IngredientsAdapter;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeInfo;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class RecipeActivity extends AppCompatActivity {
 
@@ -38,6 +48,13 @@ public class RecipeActivity extends AppCompatActivity {
     private RecyclerView ingredientsView;
     private RecipeInfo recipeInfo;
     private ProgressBar progressBar;
+
+    private static final ArrayList<RecipeInfo> RECIPE_INFO_LIST = new ArrayList<>();
+
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Favorites").child(user.getUid());
+    private String id = user.getUid();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +97,21 @@ public class RecipeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.recipe_act_menu,menu);
+
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.notfav);
+
+        if(checkIfFavExist()){
+            item.setIcon(R.drawable.baseline_favorite_24);
+            item.setTitle("Favorite");
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+
     }
 
     @Override
@@ -89,22 +120,55 @@ public class RecipeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.notfav:
                 updateMenuFavIcon(item);
+                addFavorite();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private boolean checkIfFavExist() {
+        boolean exist = false;
+        for(int i=0; i<RECIPE_INFO_LIST.size(); i++){
+            if(RECIPE_INFO_LIST.get(i).getName().equals(recipeInfo.getName())){
+                exist = true;
+            }
+        }
+        return exist;
+    }
+
+
+    private void addFavorite() {
+        if(recipeInfo == null){
+
+        }
+        else{
+            if(RECIPE_INFO_LIST.isEmpty()){
+                RECIPE_INFO_LIST.add(recipeInfo);
+                reference.child(Integer.toString(0)).setValue(recipeInfo);
+
+            }
+            else {
+                if(!checkIfFavExist()){
+                    RECIPE_INFO_LIST.add(recipeInfo);
+                    reference.child(Integer.toString(RECIPE_INFO_LIST.size()-1)).setValue(recipeInfo);
+                }
+            }
+
+        }
+    }
+
     private void updateMenuFavIcon(MenuItem item) {
-        if(item.getTitle().equals("Add to Favorites")){
-            Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
+        if(item.getTitle().equals("Not Favorite")){
+            Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show();
             item.setIcon(R.drawable.baseline_favorite_24);
-            item.setTitle("Remove from Favorites");
+            item.setTitle("Favorite");
         }
         else {
-            Toast.makeText(this, "Remove from Favorites", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT).show();
             item.setIcon(R.drawable.baseline_not_favorite_24);
-            item.setTitle("Add to Favorites");
+            item.setTitle("Not Favorite");
         }
     }
 

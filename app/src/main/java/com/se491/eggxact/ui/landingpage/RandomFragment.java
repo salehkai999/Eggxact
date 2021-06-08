@@ -76,13 +76,6 @@ public class RandomFragment extends Fragment {
     TextView instructionsView;
     RecyclerView ingredientsView;
 
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Favorites");
-    private String id = user.getUid();
-
-    private FirebaseUser userP;
-
-
 
     public RandomFragment() {
         // Required empty public constructor
