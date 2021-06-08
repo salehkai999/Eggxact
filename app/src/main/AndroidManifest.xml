@@ -19,6 +19,7 @@
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".LandingPageActivity" />
+        <activity android:name=".ui.comment.CommentRecyclerActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

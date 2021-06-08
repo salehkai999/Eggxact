@@ -24,6 +24,7 @@ public class CommentRecyclerActivity extends AppCompatActivity implements View.O
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            setContentView(R.layout.comment_activity);
                 Log.d(TAG, "onCreate: FOUND");
                 RecyclerView myRecycler = findViewById(R.id.my_recycler_view);
                 submitButton = findViewById(R.id.commentbutton);
