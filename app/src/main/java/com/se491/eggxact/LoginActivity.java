@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -56,10 +57,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login.setOnClickListener(this);
         forgotPW.setOnClickListener(this);
         signUp.setOnClickListener(this);
+
         fb.setOnClickListener(this);
         twitter.setOnClickListener(this);
         google.setOnClickListener(this);
         //to assign click listener logic to login button
+
+        Button crashButton = new Button(this);
+        crashButton.setText("Crash!");
+        crashButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+              Intent i = new Intent(LoginActivity.this,CrashActivity.class);
+              startActivity(i);
+            }
+        });
+
+        addContentView(crashButton, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
 
     }
 

@@ -13,6 +13,8 @@ public class RecipeInfo implements Serializable {
     /*
         RecipeInfo to hold a single recipe's data.
      */
+    private String recipeId;
+
     private String name;
     private int prepTime;
     private int cookingTime;
@@ -27,6 +29,9 @@ public class RecipeInfo implements Serializable {
     public RecipeInfo() {
     }
 
+
+    public String getRecipeId(){ return recipeId; }
+    public void setRecipeId(String id){this.recipeId = id;}
 
     public String getName() {
         return name;

@@ -206,7 +206,6 @@ public class ProfileFragment extends Fragment {
         userUpdates.put("fullname",fullname);
         userUpdates.put("phone",phone);
         userUpdates.put("email",email);
-        userUpdates.put("password",password);
         Log.d(TAG, "display name: " + user.getEmail());
 
         user.updateEmail(email);

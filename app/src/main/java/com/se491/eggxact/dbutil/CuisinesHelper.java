@@ -24,6 +24,7 @@ public class CuisinesHelper {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Iterable<DataSnapshot> iterable = snapshot.getChildren();
+                CUISINES.clear();
                 for(DataSnapshot dataSnapshot : iterable) {
                     databaseReferenceChild.child(dataSnapshot.getKey()).addValueEventListener(new ValueEventListener() {
                         @Override

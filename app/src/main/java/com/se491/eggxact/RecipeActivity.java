@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -21,6 +22,14 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +40,13 @@ import com.se491.eggxact.structure.IngredientsAdapter;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeInfo;
 import com.se491.eggxact.ui.FavoriteActivity;
+
+import com.se491.eggxact.ui.comment.CommentRecyclerActivity;
+import com.se491.eggxact.ui.comment.CommentRecyclerAdapter;
+import com.se491.eggxact.ui.ratingsact.RatingsActivity;
+
+import com.se491.eggxact.structure.User;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -50,6 +66,18 @@ public class RecipeActivity extends AppCompatActivity {
     private RecyclerView ingredientsView;
     private RecipeInfo recipeInfo;
     private ProgressBar progressBar;
+    private Button viewCommentsButton;
+
+    private TextView likesText;
+    private TextView dislikesText;
+    private ImageView likeBtn;
+    private ImageView dislikeBtn;
+
+    //private Recipe recipe;
+
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
+    private String key;
+
 
     private static final ArrayList<RecipeInfo> RECIPE_INFO_LIST = new ArrayList<>();
 
@@ -73,6 +101,14 @@ public class RecipeActivity extends AppCompatActivity {
         recipeImg = findViewById(R.id.recipeImg);
         ingredientsView = findViewById(R.id.ingredientsList);
         progressBar = findViewById(R.id.progressBarRecipe);
+        viewCommentsButton = findViewById(R.id.commentButton);
+
+        likesText = findViewById(R.id.likesText);
+        dislikesText = findViewById(R.id.dislikeText);
+        likeBtn = findViewById(R.id.likeButton);
+        dislikeBtn = findViewById(R.id.dislikeButton);
+
+
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Eggxact: Recipe View");
@@ -82,8 +118,33 @@ public class RecipeActivity extends AppCompatActivity {
 
         if(getIntent().hasExtra("RecipeInfo")) {
             recipeInfo = (RecipeInfo) getIntent().getSerializableExtra("RecipeInfo");
+
+            reference.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
+//                        Log.d(TAG, "Data exists " + recipeInfo.getRecipeId());
+                        //will get likes and dislikes values here
+                    }
+                    else{
+                        // Add the recipe to recipeHolder with 0 likes and 0 dislikes
+                        Log.d(TAG, "Data does not exist for recipeId " + recipeInfo.getRecipeId());
+                        Recipe r = new Recipe();
+                        r.setRecipeId(recipeInfo.getRecipeId());
+                        r.setDislikes(0);
+                        r.setLikes(0);
+                        r.setRecipeName(recipeInfo.getName());
+                        r.setSourceUrl("");
+                        reference.push().setValue(r);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
             showData();
-            Log.d("RecipeActivity", "passedRecipeObject: " + recipeInfo.toString());
         }
         else {
             progressBar.setVisibility(View.VISIBLE);
@@ -92,6 +153,50 @@ public class RecipeActivity extends AppCompatActivity {
             downloadDataThenShow();
         }
 
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementLikes();
+            }
+        });
+
+        dislikeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementDislikes();
+            }
+        });
+
+
+
+        viewCommentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecipeActivity.this, CommentRecyclerActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+    }
+
+    private void incrementLikes(){
+        long cnt = (long) Double.parseDouble(likesText.getText().toString());
+        cnt++;
+        likesText.setText((Long.toString(cnt)));
+        long finalCnt = cnt;
+        reference.child(key).child("likes").setValue(finalCnt);
+    }
+
+    private void incrementDislikes(){
+        long cnt = (long) Double.parseDouble(dislikesText.getText().toString());
+        cnt++;
+        dislikesText.setText((Long.toString(cnt)));
+        long finalCnt = cnt;
+        reference.child(key).child("dislikes").setValue(finalCnt);
 
 
     }
@@ -185,11 +290,15 @@ public class RecipeActivity extends AppCompatActivity {
         ingredientsView.setVisibility(View.INVISIBLE);
         instructionsTxt.setVisibility(View.INVISIBLE);
         ingredientsTxt.setVisibility(View.INVISIBLE);
+        likesText.setVisibility(View.INVISIBLE);
+        dislikesText.setVisibility(View.INVISIBLE);
+        likeBtn.setVisibility(View.INVISIBLE);
+        dislikeBtn.setVisibility(View.INVISIBLE);
     }
 
     private void downloadDataThenShow() {
         Recipe recipe = (Recipe) getIntent().getSerializableExtra(Recipe.class.getName());
-        Log.d(TAG, "downloadDataThenShow: "+recipe.getRecipeId());
+        Log.d(TAG, "downloadDataThenShow: "+recipe.toString());
         new Thread(new RecipeIdSearchRunnable(recipe.getRecipeId(),this)).start();
     }
 
@@ -219,6 +328,33 @@ public class RecipeActivity extends AppCompatActivity {
                 .placeholder(R.drawable.placeholder).into(recipeImg);
 
         progressBar.setVisibility(View.GONE);
+
+        reference.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    Log.d(TAG, "Data exists here" + snapshot.getValue());
+                    Recipe r = new Recipe();
+                    for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                        r = dataSnapshot.getValue(Recipe.class);
+                        key = dataSnapshot.getKey();
+                        Log.d(TAG,"Key exists here " + key);
+
+                    }
+                    Log.d(TAG,"Likes " + r.toString() );
+                    likesText.setText(String.valueOf(r.getLikes()));
+                    dislikesText.setText(String.valueOf(r.getDislikes()));
+                }
+                else{
+//                    Log.d(TAG, "Data does not exist for recipeId " + recipe.getRecipeId());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void showViews() {
@@ -231,5 +367,9 @@ public class RecipeActivity extends AppCompatActivity {
         ingredientsView.setVisibility(View.VISIBLE);
         instructionsTxt.setVisibility(View.VISIBLE);
         ingredientsTxt.setVisibility(View.VISIBLE);
+        likesText.setVisibility(View.VISIBLE);
+        dislikesText.setVisibility(View.VISIBLE);
+        likeBtn.setVisibility(View.VISIBLE);
+        dislikeBtn.setVisibility(View.VISIBLE);
     }
 }
