@@ -5,17 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,14 +26,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.structure.IngredientsAdapter;
 import com.se491.eggxact.structure.Recipe;
-import com.se491.eggxact.structure.RecipeAdapter;
 import com.se491.eggxact.structure.RecipeInfo;
+
+import com.se491.eggxact.ui.comment.CommentRecyclerActivity;
+import com.se491.eggxact.ui.comment.CommentRecyclerAdapter;
+import com.se491.eggxact.ui.ratingsact.RatingsActivity;
+
 import com.se491.eggxact.structure.User;
+
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecipeActivity extends AppCompatActivity {
 
@@ -47,6 +52,7 @@ public class RecipeActivity extends AppCompatActivity {
     private RecyclerView ingredientsView;
     private RecipeInfo recipeInfo;
     private ProgressBar progressBar;
+    private Button viewCommentsButton;
 
     private TextView likesText;
     private TextView dislikesText;
@@ -74,6 +80,7 @@ public class RecipeActivity extends AppCompatActivity {
         recipeImg = findViewById(R.id.recipeImg);
         ingredientsView = findViewById(R.id.ingredientsList);
         progressBar = findViewById(R.id.progressBarRecipe);
+        viewCommentsButton = findViewById(R.id.commentButton);
 
         likesText = findViewById(R.id.likesText);
         dislikesText = findViewById(R.id.dislikeText);
@@ -135,6 +142,17 @@ public class RecipeActivity extends AppCompatActivity {
 
 
 
+        viewCommentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecipeActivity.this, CommentRecyclerActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
 
     }
 
@@ -152,6 +170,7 @@ public class RecipeActivity extends AppCompatActivity {
         dislikesText.setText((Long.toString(cnt)));
         long finalCnt = cnt;
         reference.child(key).child("dislikes").setValue(finalCnt);
+
     }
 
     private void hideViews() {
