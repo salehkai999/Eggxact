@@ -40,6 +40,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavViewHolder> {
     @Override
     public FavViewHolder onCreateViewHolder(@NonNull  ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fav_recycler_item_layout,parent,false);
+        itemView.setOnClickListener(favoritesFragment);
         return new FavViewHolder(itemView);
     }
 

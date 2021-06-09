@@ -146,6 +146,14 @@ public class RecipeActivity extends AppCompatActivity {
             });
             showData();
         }
+        else if(getIntent().hasExtra("favInfo")){
+            recipeInfo = (RecipeInfo) getIntent().getSerializableExtra("favInfo");
+            showData();
+            likeBtn.setVisibility(View.INVISIBLE);
+            dislikeBtn.setVisibility(View.INVISIBLE);
+            dislikesText.setVisibility(View.INVISIBLE);
+            likesText.setVisibility(View.INVISIBLE);
+        }
         else {
             progressBar.setVisibility(View.VISIBLE);
             hideViews();

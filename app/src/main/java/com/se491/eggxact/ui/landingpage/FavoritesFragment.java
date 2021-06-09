@@ -1,5 +1,6 @@
 package com.se491.eggxact.ui.landingpage;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.se491.eggxact.R;
+import com.se491.eggxact.RecipeActivity;
 import com.se491.eggxact.dbutil.FavHelper;
 import com.se491.eggxact.dbutil.RandomGenerator;
 import com.se491.eggxact.structure.Recipe;
@@ -30,7 +32,7 @@ import com.se491.eggxact.structure.Recipe;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class FavoritesFragment extends Fragment {
+public class FavoritesFragment extends Fragment implements View.OnClickListener {
 
     //static final ArrayList<String> favList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian","Korean","Asian"));
 
@@ -84,5 +86,15 @@ public class FavoritesFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeDeleteCallback(favAdapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
         return fragmentView;
+    }
+
+    @Override
+    public void onClick(View v) {
+            if(!favList.isEmpty()){
+                int pos = recyclerView.getChildAdapterPosition(v);
+                Intent i = new Intent(getContext(), RecipeActivity.class);
+                i.putExtra("favInfo",favList.get(pos));
+                startActivity(i);
+            }
     }
 }
