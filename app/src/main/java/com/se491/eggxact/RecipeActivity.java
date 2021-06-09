@@ -2,14 +2,26 @@ package com.se491.eggxact;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +39,7 @@ import com.se491.eggxact.Runnables.RecipeIdSearchRunnable;
 import com.se491.eggxact.structure.IngredientsAdapter;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.ui.FavoriteActivity;
 
 import com.se491.eggxact.ui.comment.CommentRecyclerActivity;
 import com.se491.eggxact.ui.comment.CommentRecyclerAdapter;
@@ -38,8 +51,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecipeActivity extends AppCompatActivity {
+import static com.se491.eggxact.ui.landingpage.FavoritesFragment.*;
 
+public class RecipeActivity extends AppCompatActivity {
     private static final String TAG = "RecipeActivity";
     private TextView titleView;
     private TextView prepTimeView;
@@ -65,6 +79,13 @@ public class RecipeActivity extends AppCompatActivity {
     private String key;
 
 
+    private static final ArrayList<RecipeInfo> RECIPE_INFO_LIST = new ArrayList<>();
+
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Favorites").child(user.getUid());
+    private String id = user.getUid();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +109,12 @@ public class RecipeActivity extends AppCompatActivity {
         dislikeBtn = findViewById(R.id.dislikeButton);
 
 
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Eggxact: Recipe View");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        }
 
         if(getIntent().hasExtra("RecipeInfo")) {
             recipeInfo = (RecipeInfo) getIntent().getSerializableExtra("RecipeInfo");
@@ -171,6 +198,86 @@ public class RecipeActivity extends AppCompatActivity {
         long finalCnt = cnt;
         reference.child(key).child("dislikes").setValue(finalCnt);
 
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.recipe_act_menu,menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.notfav);
+
+        if(checkIfFavExist()){
+            item.setIcon(R.drawable.baseline_favorite_24);
+            item.setTitle("Favorite");
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        boolean fav = true;
+        switch (item.getItemId()) {
+            case R.id.notfav:
+                updateMenuFavIcon(item);
+                addFavorite();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private boolean checkIfFavExist() {
+        boolean exist = false;
+        for(int i=0; i<RECIPE_INFO_LIST.size(); i++){
+            if(RECIPE_INFO_LIST.get(i).getName().equals(recipeInfo.getName())){
+                exist = true;
+            }
+        }
+        return exist;
+    }
+
+
+    private void addFavorite() {
+        if(recipeInfo == null){
+
+        }
+        else{
+            if(RECIPE_INFO_LIST.isEmpty()){
+                RECIPE_INFO_LIST.add(recipeInfo);
+                reference.child(Integer.toString(0)).setValue(recipeInfo);
+                favList.add(new Recipe(Integer.toString(RECIPE_INFO_LIST.size()),recipeInfo.getName()));
+            }
+            else {
+                if(!checkIfFavExist()){
+                    RECIPE_INFO_LIST.add(recipeInfo);
+                    reference.child(Integer.toString(RECIPE_INFO_LIST.size()-1)).setValue(recipeInfo);
+                    favList.add(new Recipe(Integer.toString(RECIPE_INFO_LIST.size()),recipeInfo.getName()));
+                }
+            }
+
+        }
+    }
+
+    private void updateMenuFavIcon(MenuItem item) {
+        if(item.getTitle().equals("Not Favorite")){
+            Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show();
+            item.setIcon(R.drawable.baseline_favorite_24);
+            item.setTitle("Favorite");
+        }
+        else {
+            Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT).show();
+            item.setIcon(R.drawable.baseline_not_favorite_24);
+            item.setTitle("Not Favorite");
+        }
     }
 
     private void hideViews() {

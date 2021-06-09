@@ -11,13 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.se491.eggxact.R;
+import com.se491.eggxact.structure.Recipe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FavoritesFragment extends Fragment {
 
-    static final ArrayList<String> favList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian","Korean","Asian"));
+    //static final ArrayList<String> favList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian","Korean","Asian"));
+    public static ArrayList<Recipe> favList = new ArrayList();
     RecyclerView recyclerView;
     FavAdapter favAdapter;
     public FavoritesFragment() {

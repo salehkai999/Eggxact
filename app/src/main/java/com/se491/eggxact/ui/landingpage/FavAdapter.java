@@ -8,14 +8,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.se491.eggxact.R;
+import com.se491.eggxact.structure.Recipe;
 
 import java.util.ArrayList;
 
 public class FavAdapter extends RecyclerView.Adapter<FavViewHolder> {
 
-    private ArrayList<String> favList;
+    private ArrayList<Recipe> favList;
 
-    public FavAdapter(ArrayList<String> favList) {
+    public FavAdapter(ArrayList<Recipe> favList) {
         this.favList = favList;
     }
 
@@ -28,7 +29,8 @@ public class FavAdapter extends RecyclerView.Adapter<FavViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull  FavViewHolder holder, int position) {
-        holder.title.setText(favList.get(position));
+        holder.title.setText(favList.get(position).getRecipeName());
+
     }
 
     @Override
