@@ -30,8 +30,8 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
     RecyclerView recyclerViewTwo;
     CatAdapter catAdapterR1;
     CuisinesAdapter catAdapterR2;
-    ArrayList<Category> catList = new ArrayList<>();
-    ArrayList<Category> catList2 = new ArrayList<>();
+    static ArrayList<Category> catList = new ArrayList<>();
+    static ArrayList<Category> catList2 = new ArrayList<>();
 
 
     public CategoriesFragment() {
@@ -55,6 +55,8 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_categories, container, false);
+        //catList.clear();
+        //catList2.clear();
         catList = CategoriesHelper.getCategories();
         catList2 = CuisinesHelper.getCategories();
         recyclerView = fragmentView.findViewById(R.id.catFragRecycler);

@@ -60,5 +60,12 @@ public class RandomGenerator {
             return null;
     }
 
+    public static ArrayList<RecipeInfo> getAllData() {
+        if(!RECIPE_INFO_ARRAY_LIST.isEmpty()){
+            return RECIPE_INFO_ARRAY_LIST;
+        }
+        return null;
+    }
+
 
 }
