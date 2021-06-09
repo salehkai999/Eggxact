@@ -24,6 +24,8 @@ import com.se491.eggxact.dbutil.FavHelper;
 import com.se491.eggxact.dbutil.RandomGenerator;
 import com.se491.eggxact.structure.Recipe;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.structure.Recipe;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +33,7 @@ import java.util.Arrays;
 public class FavoritesFragment extends Fragment {
 
     //static final ArrayList<String> favList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian","Korean","Asian"));
+
     static  ArrayList<RecipeInfo> favList = new ArrayList<>();
     private static final String TAG = "FavoritesFragment";
     private static DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Favorites").child(FirebaseAuth.getInstance().getCurrentUser().getUid());

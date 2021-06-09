@@ -15,6 +15,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.se491.eggxact.R;
 import com.se491.eggxact.structure.RecipeInfo;
+import com.se491.eggxact.structure.Recipe;
+
 
 import java.util.ArrayList;
 
@@ -43,11 +45,13 @@ public class FavAdapter extends RecyclerView.Adapter<FavViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull  FavViewHolder holder, int position) {
+
         if(favList.get(position).getName().length() > 31) {
             holder.title.setText(favList.get(position).getName().substring(0,31)+"...");
         }
         else
             holder.title.setText(favList.get(position).getName());
+
     }
 
     @Override

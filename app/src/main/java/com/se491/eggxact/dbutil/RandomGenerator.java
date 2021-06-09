@@ -26,6 +26,7 @@ public class RandomGenerator {
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
                 Iterable<DataSnapshot> iterable = snapshot.getChildren();
+                RECIPE_INFO_ARRAY_LIST.clear();
                 //Log.d(TAG, "onDataChange: "+iterable.toString());
                 //Log.d(TAG, "onDataChange: "+snapshot.getChildrenCount());
                 for(DataSnapshot dataSnapshot : iterable){

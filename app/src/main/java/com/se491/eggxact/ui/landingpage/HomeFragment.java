@@ -219,10 +219,12 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
                     //Log.d(TAG, "onDataChange: "+r.toString());
                 }
                 Collections.sort(DB_RECIPE_LIST);
-                Log.d(TAG, "onDataChange: "+DB_RECIPE_LIST.get(0).toString());
-                Log.d(TAG, "onDataChange: "+DB_RECIPE_LIST.get(DB_RECIPE_LIST.size()-1).toString());
-                HIGHEST_RATED_LIST.addAll(DB_RECIPE_LIST.subList(0,7));
-                ratingsAdapter.notifyDataSetChanged();
+                if(!DB_RECIPE_LIST.isEmpty()) {
+                    Log.d(TAG, "onDataChange: " + DB_RECIPE_LIST.get(0).toString());
+                    Log.d(TAG, "onDataChange: " + DB_RECIPE_LIST.get(DB_RECIPE_LIST.size() - 1).toString());
+                    HIGHEST_RATED_LIST.addAll(DB_RECIPE_LIST.subList(0, 7));
+                    ratingsAdapter.notifyDataSetChanged();
+                }
               //  Log.d(TAG, "onDataChange: "+snapshot.getChildrenCount());
             }
 

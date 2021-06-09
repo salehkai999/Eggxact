@@ -24,6 +24,7 @@ public class CategoriesHelper {
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
                 Iterable<DataSnapshot> iterable = snapshot.getChildren();
+                CATEGORIES.clear();
                 for(DataSnapshot dataSnapshot : iterable) {
                     databaseReferenceChild.child(dataSnapshot.getKey()).addValueEventListener(new ValueEventListener() {
                         @Override
