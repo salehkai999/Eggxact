@@ -67,7 +67,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavViewHolder> {
         favData = favList.get(pos);
         deletePos = pos;
         RecipeInfo str = favList.remove(pos);
-        removeFromDB(String.valueOf(deletePos));
+        removeFromDB(favData.getRecipeId());
         notifyItemRemoved(pos);
         showSnackbar();
     }
@@ -82,14 +82,14 @@ public class FavAdapter extends RecyclerView.Adapter<FavViewHolder> {
         snackbar.setActionTextColor(Color.BLUE);
         snackbar.setAction("Undo", v -> {
             favList.add(deletePos,favData);
-            readdToDB(String.valueOf(deletePos),favData);
+            readdToDB(favData);
             notifyItemInserted(deletePos);
         });
         snackbar.show();
     }
 
-    private void readdToDB(String pos, RecipeInfo favData) {
-        databaseReference.child(pos).setValue(favData);
+    private void readdToDB( RecipeInfo favData) {
+        databaseReference.child(favData.getRecipeId()).setValue(favData);
     }
 
 

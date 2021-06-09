@@ -34,7 +34,7 @@ public class FavoritesFragment extends Fragment {
 
     //static final ArrayList<String> favList = new ArrayList<>(Arrays.asList("Chicken","Salad","Beef","American","Italian","Korean","Asian"));
 
-    static  ArrayList<RecipeInfo> favList = new ArrayList<>();
+    public static  ArrayList<RecipeInfo> favList = new ArrayList<>();
     private static final String TAG = "FavoritesFragment";
     private static DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Favorites").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     RecyclerView recyclerView;
@@ -61,17 +61,19 @@ public class FavoritesFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_favorites, container, false);
         ArrayList<RecipeInfo> recipeInfoArrayList = RandomGenerator.getAllData();
         favList = FavHelper.getFavList();
-        /*
-        if(!recipeInfoArrayList.isEmpty()){
+
+        /*if(!recipeInfoArrayList.isEmpty()){
             favList.clear();
             for(RecipeInfo recipeInfo : recipeInfoArrayList.subList(0,6)){
-                favList.add(recipeInfo.getName());
+                String key = databaseReference.push().getKey();
+                recipeInfo.setRecipeId(key);
+                favList.add(recipeInfo);
             }
             //DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Test").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
             //databaseReference.setValue(recipeInfoArrayList.subList(0,6));
 
-            /*for(RecipeInfo recipeInfo : recipeInfoArrayList.subList(0,6)) {
-                databaseReference.push().setValue(recipeInfo);
+            for(RecipeInfo recipeInfo : recipeInfoArrayList.subList(0,6)) {
+                databaseReference.child(recipeInfo.getRecipeId()).setValue(recipeInfo);
             }
         }*/
         Log.d(TAG, "onCreateView: "+favList.size());

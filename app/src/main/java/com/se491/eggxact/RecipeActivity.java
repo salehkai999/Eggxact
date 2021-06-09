@@ -75,7 +75,7 @@ public class RecipeActivity extends AppCompatActivity {
 
     //private Recipe recipe;
 
-    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
+    private DatabaseReference referenceRecipe = FirebaseDatabase.getInstance().getReference().child("recipeHolder");
     private String key;
 
 
@@ -119,7 +119,7 @@ public class RecipeActivity extends AppCompatActivity {
         if(getIntent().hasExtra("RecipeInfo")) {
             recipeInfo = (RecipeInfo) getIntent().getSerializableExtra("RecipeInfo");
 
-            reference.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
+            referenceRecipe.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()){
@@ -135,7 +135,7 @@ public class RecipeActivity extends AppCompatActivity {
                         r.setLikes(0);
                         r.setRecipeName(recipeInfo.getName());
                         r.setSourceUrl("");
-                        reference.push().setValue(r);
+                        referenceRecipe.push().setValue(r);
                     }
                 }
 
@@ -188,7 +188,7 @@ public class RecipeActivity extends AppCompatActivity {
         cnt++;
         likesText.setText((Long.toString(cnt)));
         long finalCnt = cnt;
-        reference.child(key).child("likes").setValue(finalCnt);
+        referenceRecipe.child(key).child("likes").setValue(finalCnt);
     }
 
     private void incrementDislikes(){
@@ -196,7 +196,7 @@ public class RecipeActivity extends AppCompatActivity {
         cnt++;
         dislikesText.setText((Long.toString(cnt)));
         long finalCnt = cnt;
-        reference.child(key).child("dislikes").setValue(finalCnt);
+        referenceRecipe.child(key).child("dislikes").setValue(finalCnt);
 
 
     }
@@ -252,15 +252,19 @@ public class RecipeActivity extends AppCompatActivity {
         }
         else{
             if(RECIPE_INFO_LIST.isEmpty()){
+                String uniqueKey = reference.push().getKey();
+                recipeInfo.setRecipeId(uniqueKey);
                 RECIPE_INFO_LIST.add(recipeInfo);
-                reference.child(Integer.toString(0)).setValue(recipeInfo);
-                favList.add(new Recipe(Integer.toString(RECIPE_INFO_LIST.size()),recipeInfo.getName()));
+                reference.child(uniqueKey).setValue(recipeInfo);
+                favList.add(recipeInfo);
             }
             else {
                 if(!checkIfFavExist()){
+                    String uniqueKey = reference.push().getKey();
+                    recipeInfo.setRecipeId(uniqueKey);
                     RECIPE_INFO_LIST.add(recipeInfo);
-                    reference.child(Integer.toString(RECIPE_INFO_LIST.size()-1)).setValue(recipeInfo);
-                    favList.add(new Recipe(Integer.toString(RECIPE_INFO_LIST.size()),recipeInfo.getName()));
+                    reference.child(uniqueKey).setValue(recipeInfo);
+                    favList.add(recipeInfo);
                 }
             }
 
@@ -329,7 +333,7 @@ public class RecipeActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.GONE);
 
-        reference.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
+        referenceRecipe.orderByChild("recipeId").equalTo(recipeInfo.getRecipeId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
