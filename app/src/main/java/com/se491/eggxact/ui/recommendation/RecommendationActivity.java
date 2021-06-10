@@ -37,6 +37,7 @@ public class RecommendationActivity extends AppCompatActivity implements View.On
         recyclerView = findViewById(R.id.recRecycler);
         Intent intent = getIntent();
         if(intent.hasExtra("recommendations")){
+            recipeList.clear();
             Log.d(TAG, "onCreate: YES");
             ArrayList<Recipe> list = (ArrayList<Recipe>)intent.getSerializableExtra("recommendations");
             this.setTitle("Recommendations (" +list.size() + ")");

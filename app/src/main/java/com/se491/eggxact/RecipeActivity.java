@@ -236,7 +236,6 @@ public class RecipeActivity extends AppCompatActivity {
             case R.id.notfav:
                 updateMenuFavIcon(item);
                 addFavorite();
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -45,7 +45,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterViewHolder> {
             holder.titleTxt.setText(recipe.getRecipeName());
         }
         ImageView img = holder.image;
-        Picasso.get().load(recipe.getSourceUrl())
+        Picasso.get().load(recipe.getSourceUrl()).placeholder(R.drawable.placeholder).error(R.drawable.brokenimage)
                 .into(img,
                         new Callback() {
                             @Override

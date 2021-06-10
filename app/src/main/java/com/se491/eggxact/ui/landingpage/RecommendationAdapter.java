@@ -9,21 +9,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.se491.eggxact.R;
 import com.se491.eggxact.structure.Category;
+import com.se491.eggxact.structure.Recipe;
 
 import java.util.ArrayList;
 
 public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationHolder> {
 
 
-    ArrayList<Category> recommendations = new ArrayList<>();
+    ArrayList<Recipe> recommendations = new ArrayList<>();
     HomeFragment homeFragment;
 
-    public RecommendationAdapter(ArrayList<Category> recList, HomeFragment homeFragment){
+    public RecommendationAdapter(ArrayList<Recipe> recList, HomeFragment homeFragment){
         this.recommendations = recList;
         this.homeFragment = homeFragment;
     }
 
-    public RecommendationAdapter(ArrayList<Category> recList) {
+    public RecommendationAdapter(ArrayList<Recipe> recList) {
         this.recommendations = recList;
     }
 
@@ -38,7 +39,7 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationHo
 
     @Override
     public void onBindViewHolder(@NonNull  RecommendationHolder holder, int position) {
-        holder.recommendationRecipe.setText(recommendations.get(position).getName());
+        holder.recommendationRecipe.setText(recommendations.get(position).getRecipeName());
 
     }
 

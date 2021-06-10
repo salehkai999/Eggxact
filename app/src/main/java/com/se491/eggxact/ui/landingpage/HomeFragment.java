@@ -118,13 +118,19 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
         ratedRecyclerView.setLayoutManager(ratingsLayout);
         ratedRecyclerView.setAdapter(ratingsAdapter);
 
-      recommendationsSeeAll = fragmentView.findViewById((R.id.recommendationsSeeAll));
+        CURRENT_RECOMMENDATION_LIST.clear();
+        for (int i = 0; i < catList.size(); i++) {
+            CURRENT_RECOMMENDATION_LIST.add(catList.get(i).getRecipes().get(0));
+        }
+        recommendationsSeeAll = fragmentView.findViewById((R.id.recommendationsSeeAll));
         recommendationsRecyclerView = fragmentView.findViewById(R.id.RecommendationsRecycler);
-        recommendationAdapter = new RecommendationAdapter(catList);
-        RecyclerView.LayoutManager recRecyclerLayout = new LinearLayoutManager(fragmentView.getContext(),
+        ArrayList<Recipe> subList = new ArrayList<>(CURRENT_RECOMMENDATION_LIST.subList(0, 2));
+        recommendationAdapter = new RecommendationAdapter(CURRENT_RECOMMENDATION_LIST);
+        /*RecyclerView.LayoutManager recRecyclerLayout = new LinearLayoutManager(fragmentView.getContext(),
                 LinearLayoutManager.HORIZONTAL,
-                false);
-        recommendationsRecyclerView.setLayoutManager(recRecyclerLayout);
+                false);*/
+
+        recommendationsRecyclerView.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
         recommendationsRecyclerView.setAdapter(recommendationAdapter);
 
         searchText = fragmentView.findViewById(R.id.search_recipe);
@@ -154,11 +160,6 @@ public class HomeFragment extends Fragment implements  View.OnClickListener, Rat
         recommendationsSeeAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                for (int i = 0; i < catList.size(); i++) {
-                    CURRENT_RECOMMENDATION_LIST.add(catList.get(i).getRecipes().get(0));
-                }
-
                 Intent intent = new Intent(getActivity(), RecommendationActivity.class);
                 intent.putExtra("recommendations", CURRENT_RECOMMENDATION_LIST);
                 startActivity(intent);
